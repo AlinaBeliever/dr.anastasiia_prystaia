@@ -1,0 +1,5 @@
+# Для запуску: у netlify.toml видалити заголовок X-Robots-Tag (інакше сайт не індексуватиметься).
+User-agent: *
+Allow: /
+
+Sitemap: https://dr-prystaia.example/sitemap.xml
