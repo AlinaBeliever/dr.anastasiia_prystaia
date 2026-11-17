@@ -77,7 +77,6 @@ function header(root, cur) {
 function bookbar(root) {
   return `<div class="book-bar" data-bookbar>
   <a class="btn" href="${root}#zapys">Записатись</a>
-  <a class="btn btn--ghost" href="tel:${D.PHONES[0].tel}">${PHONE}Подзвонити</a>
 </div>
 `;
 }
@@ -399,7 +398,6 @@ function home() {
           <div><dt>Ще</dt><dd>Директорка з питань міжнародного партнерства та зв'язків із громадськістю в GMKA; частина команди <a href="${D.IG_SVIY}" rel="noopener" target="_blank">@sviy.doc</a>.</dd></div>
           <div><dt>Освіта</dt><dd><span class="ph">[ОСВІТА І ПІДВИЩЕННЯ КВАЛІФІКАЦІЇ: уточнити]</span></dd></div>
         </dl>
-        <div><a class="btn" href="#zapys">Записатись</a></div>
       </div>
     </div>
 
@@ -480,11 +478,11 @@ function home() {
     <div class="cards3 learn-media">
       <figure class="video-card" data-reveal>
         <div class="video-card__frame"><iframe src="https://www.youtube-nocookie.com/embed/zvl4JwCSOd4" title="Як правильно ходити в туалет? Відверта розмова з проктологом" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-        <figcaption><span class="learn-card__kind">Відео</span><strong>Як правильно ходити в туалет? Відверта розмова з проктологом</strong><span class="small">«Між Нами Лікарями»</span></figcaption>
+        <figcaption><span class="learn-card__kind">Відео</span><strong>Як правильно ходити в туалет? Відверта розмова з проктологом</strong><span class="small">«Між Нами Лікарями»</span><a class="btn btn--sm video-card__watch" href="https://www.youtube.com/watch?v=zvl4JwCSOd4" rel="noopener" target="_blank">Дивитись</a></figcaption>
       </figure>
       <figure class="video-card" data-reveal style="--d:.1s">
         <div class="video-card__frame"><iframe src="https://www.youtube-nocookie.com/embed/ZgUXv8izj_o" title="Анастасія Пристая: про хірургію, великі гроші, три роботи, приватну медицину та принципи" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-        <figcaption><span class="learn-card__kind">Подкаст</span><strong>Про хірургію, великі гроші, три роботи, приватну медицину та принципи</strong><span class="small">«Заплати собі сама» з Оксаною Железко</span></figcaption>
+        <figcaption><span class="learn-card__kind">Подкаст</span><strong>Про хірургію, великі гроші, три роботи, приватну медицину та принципи</strong><span class="small">«Заплати собі сама» з Оксаною Железко</span><a class="btn btn--sm video-card__watch" href="https://www.youtube.com/watch?v=ZgUXv8izj_o" rel="noopener" target="_blank">Дивитись</a></figcaption>
       </figure>
       <article class="learn-card learn-card--ig" data-reveal style="--d:.2s"><div class="learn-card__top"><img class="learn-card__avatar" src="assets/img/portrait-constellation-520.webp" width="520" height="520" loading="lazy" decoding="async" alt="Анастасія Пристая в шапочці із сузір'ями"><span class="learn-card__kind learn-card__kind--ig">${IG_ICON}</span></div><h3>Говорю так само, як тут</h3><p>Сторіс, хайлайти, Reels.<br>Більше тут <svg class="arrow-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="18" height="18" style="display:inline-block;vertical-align:-0.2em;margin-left:0.25em"><path d="M12 5v14M6 13l6 6 6-6"/></svg></p><a class="link-arrow ig-link" href="${D.IG}" rel="noopener" target="_blank"><span class="ig-nick">@dr.anastasiia_prystaia</span> ${ARROW}</a></article>
     </div>
@@ -499,7 +497,6 @@ function home() {
       <h2 id="faq-title" data-mask>Що люди питають <em>найчастіше</em></h2>
     </div>
     <div class="faq">${faqHtml}</div>
-    <div class="faq-cta"><a class="btn" href="#zapys">Записатись</a><a class="link-arrow" href="pryyom/">Усе про прийом ${ARROW}</a></div>
   </div>
 </section>
 

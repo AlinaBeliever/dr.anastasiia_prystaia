@@ -343,8 +343,7 @@ a:hover { text-decoration-thickness: 2px; }
   --focus: var(--ink-800);
 }
 .book-bar .btn { flex: 1; min-height: 3rem; padding-inline: 1rem; }
-.book-bar .btn--ghost { --_fg: var(--ink-800); --_bg-h: rgb(20 24 58 / 0.06); }
-.book-bar.is-hidden { transform: translateY(110%); }
+.book-bar.is-hidden, .book-bar.is-early { transform: translateY(110%); }
 @media (min-width: 900px) { .book-bar { display: none; } }
 @media (max-width: 899.98px) { body { padding-bottom: var(--bar-h); } }
 

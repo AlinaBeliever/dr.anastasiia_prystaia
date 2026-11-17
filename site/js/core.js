@@ -68,5 +68,17 @@
       bar.classList.toggle("is-hidden", hide.size > 0);
     }, { threshold: 0.15 });
     [zapys, d.querySelector(".site-footer")].filter(Boolean).forEach((t) => io2.observe(t));
+    // На головній панель з'являється лише після блоку «крок за кроком»
+    const scene = d.getElementById("pryyom");
+    if (scene && scene.hasAttribute("data-scene")) {
+      let passed = false;
+      const upd = () => {
+        passed = scene.getBoundingClientRect().bottom <= window.innerHeight * 0.5;
+        bar.classList.toggle("is-early", !passed);
+      };
+      upd();
+      addEventListener("scroll", upd, { passive: true });
+      addEventListener("resize", upd);
+    }
   }
 })();

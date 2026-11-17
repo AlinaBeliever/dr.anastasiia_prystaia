@@ -597,3 +597,9 @@ input[type="range"]:focus-visible { outline: 3px solid var(--lime-500); outline-
 .wdialog h4 { font-size: var(--fs-base); margin-top: var(--sp-2); }
 .wdialog .btn { justify-self: start; }
 .wdialog__close { position: absolute; top: var(--sp-3); right: var(--sp-3); width: 2.5rem; height: 2.5rem; border-radius: 50%; border: 1px solid var(--line); background: transparent; font-size: 1.5rem; line-height: 1; cursor: pointer; color: inherit; }
+
+.video-card__watch { justify-self: start; margin-top: var(--sp-2); }
+@media (max-width: 599.98px) {
+  .finder__opts { gap: 0.4rem; }
+  .finder__opts .pill { min-height: 2.5rem; padding: 0.4rem 0.9rem; font-size: var(--fs-sm); }
+}
