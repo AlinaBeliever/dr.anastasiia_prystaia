@@ -600,6 +600,6 @@ input[type="range"]:focus-visible { outline: 3px solid var(--lime-500); outline-
 
 .video-card__watch { justify-self: start; margin-top: var(--sp-2); }
 @media (max-width: 599.98px) {
-  .finder__opts { gap: 0.4rem; }
-  .finder__opts .pill { min-height: 2.5rem; padding: 0.4rem 0.9rem; font-size: var(--fs-sm); }
+  .finder__opts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .finder__opts .pill { min-height: 2.5rem; padding: 0.4rem 0.7rem; font-size: var(--fs-sm); text-align: center; line-height: 1.2; display: flex; align-items: center; justify-content: center; }
 }
