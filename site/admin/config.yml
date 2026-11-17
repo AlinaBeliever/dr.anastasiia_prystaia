@@ -1,0 +1,200 @@
+# Адмінка сайту (Sveltia CMS, формат конфігурації Decap). Кожне збереження = коміт у GitHub → Netlify перезбирає сайт (~1 хв).
+# Вхід: GitHub-токен (Sign In with Token) — див. README, розділ «Адмінка».
+backend:
+  name: github
+  repo: AlinaBeliever/dr.anastasiia_prystaia
+  branch: main
+  commit_messages:
+    update: "Адмінка: оновлено «{{slug}}»"
+    uploadMedia: "Адмінка: завантажено {{path}}"
+    deleteMedia: "Адмінка: видалено {{path}}"
+
+# Перевірка на своєму комп'ютері: start-site.command → http://localhost:8080/admin/ → «Працювати з локальним репозиторієм»
+locale: uk
+
+# Картинки, завантажені з адмінки
+media_folder: site/assets/img/uploads
+public_folder: /assets/img/uploads
+
+collections:
+  # ---------------------------------------------------------------- ПОСЛУГИ
+  - name: services
+    label: "💳 Послуги та ціни"
+    description: "Таблиця «Послуги й вартість» на головній. Перетягуйте рядки, щоб змінити порядок. Вимкніть «Показувати», щоб тимчасово сховати послугу, не видаляючи її."
+    editor: { preview: false }
+    files:
+      - name: services
+        label: "Послуги та ціни"
+        file: content/services.json
+        fields:
+          - name: items
+            label: "Послуги"
+            label_singular: "послугу"
+            widget: list
+            summary: "{{fields.title}} — {{fields.price}}"
+            collapsed: true
+            fields:
+              - { name: enabled, label: "Показувати на сайті", widget: boolean, default: true }
+              - { name: title, label: "Назва послуги", widget: string }
+              - { name: note, label: "Примітка під назвою (необов'язково)", widget: string, required: false, hint: "Напр.: «Вартість залежить від кількості препарату.»" }
+              - { name: price, label: "Ціна", widget: string, hint: "Напр.: «3500 грн», «3000–15000 грн», «Після консультації». Текст у [квадратних дужках] підсвітиться як «уточнити»." }
+          - { name: caption, label: "Підпис таблиці (для читачів екрана)", widget: string }
+          - { name: footnote, label: "Примітка під таблицею", widget: text, hint: "**Так** — жирний текст." }
+
+  # ---------------------------------------------------------------- ВЕБІНАРИ
+  - name: webinars
+    label: "🎓 Вебінари й освітні продукти"
+    description: "Картки в блоці «Поглибити». Кожна нова картка автоматично має той самий вигляд, що й інші."
+    editor: { preview: false }
+    files:
+      - name: webinars
+        label: "Вебінари й освітні продукти"
+        file: content/webinars.json
+        fields:
+          - name: items
+            label: "Продукти"
+            label_singular: "продукт"
+            widget: list
+            summary: "{{fields.kind}}: {{fields.title}} · {{fields.price}}"
+            collapsed: true
+            fields:
+              - { name: enabled, label: "Показувати на сайті", widget: boolean, default: true }
+              - { name: kind, label: "Тип", widget: select, options: ["Вебінар", "Курс", "Гайд", "Чек-лист", "Запис ефіру", "Майстер-клас"], default: "Вебінар" }
+              - { name: title, label: "Назва", widget: string }
+              - { name: sub, label: "Підзаголовок (необов'язково)", widget: string, required: false }
+              - { name: poster, label: "Афіша (квадратна картинка)", widget: image, required: false, hint: "Квадрат, бажано 720×720 px, формат WebP або JPG до ~200 КБ. Обрізається до квадрата автоматично." }
+              - { name: alt, label: "Опис афіші для незрячих", widget: string, required: false, hint: "Напр.: «Афіша вебінару „Назва“». Якщо порожньо — візьметься назва." }
+              - { name: price, label: "Ціна", widget: string, hint: "Напр.: «1100 грн»" }
+              - { name: dur, label: "Тривалість (необов'язково)", widget: string, required: false, hint: "Напр.: «2 год», «1 год 15 хв»" }
+              - { name: access, label: "Доступ (необов'язково)", widget: string, required: false, hint: "Напр.: «6 місяців»" }
+              - { name: lead, label: "Короткий опис", widget: text }
+              - name: items
+                label: "Про що (пункти)"
+                label_singular: "пункт"
+                widget: list
+                field: { name: item, label: "Пункт", widget: text }
+              - name: aud
+                label: "Для кого (пункти, необов'язково)"
+                label_singular: "пункт"
+                widget: list
+                required: false
+                field: { name: item, label: "Пункт", widget: text }
+              - { name: note, label: "Примітка / бонус (необов'язково)", widget: text, required: false }
+              - { name: buy_url, label: "Посилання для покупки (необов'язково)", widget: string, required: false, hint: "Якщо порожньо, кнопка «Придбати» відкриває Telegram асистента з готовим повідомленням." }
+              - { name: id, label: "id", widget: hidden, default: "" }
+
+  # ---------------------------------------------------------------- ДОСЯГНЕННЯ
+  - name: achievements
+    label: "🏅 Професійні досягнення"
+    description: "Блок «Про мене»: великі цифри та рядки «Де / Ще / Освіта…»."
+    editor: { preview: false }
+    files:
+      - name: achievements
+        label: "Професійні досягнення"
+        file: content/achievements.json
+        fields:
+          - name: stats
+            label: "Цифри (великі лаймові)"
+            label_singular: "цифру"
+            widget: list
+            summary: "{{fields.value}} — {{fields.text}}"
+            collapsed: true
+            fields:
+              - { name: enabled, label: "Показувати на сайті", widget: boolean, default: true }
+              - { name: value, label: "Цифра", widget: string, hint: "Коротко: «300+», «11 років», «5000+»" }
+              - { name: text, label: "Пояснення", widget: text }
+          - name: facts
+            label: "Факти: місця роботи, освіта, членство, нагороди, сертифікати"
+            label_singular: "факт"
+            widget: list
+            summary: "{{fields.title}}"
+            collapsed: true
+            fields:
+              - { name: enabled, label: "Показувати на сайті", widget: boolean, default: true }
+              - { name: title, label: "Заголовок", widget: string, hint: "Одне-два слова: «Освіта», «Нагороди», «Членство»" }
+              - { name: text, label: "Текст", widget: text, hint: "Новий рядок = перенос. Посилання: [текст](https://адреса). **Жирний**." }
+
+  # ---------------------------------------------------------------- МЕДІА
+  - name: media
+    label: "📰 Публікації та медіа"
+    description: "Картки «Відео / Подкаст / Стаття / Інтерв'ю» у блоці «Поглибити». Посилання на YouTube вбудовується як плеєр."
+    editor: { preview: false }
+    files:
+      - name: media
+        label: "Публікації та медіа"
+        file: content/media.json
+        fields:
+          - name: items
+            label: "Матеріали"
+            label_singular: "матеріал"
+            widget: list
+            summary: "{{fields.kind}}: {{fields.title}}"
+            collapsed: true
+            fields:
+              - { name: enabled, label: "Показувати на сайті", widget: boolean, default: true }
+              - { name: kind, label: "Тип", widget: select, options: ["Відео", "Подкаст", "Стаття", "Інтерв'ю", "Публікація", "Ефір"], default: "Відео" }
+              - { name: title, label: "Назва", widget: string }
+              - { name: source, label: "Де вийшло (необов'язково)", widget: string, required: false, hint: "Напр.: «Українська правда. Життя», «Між Нами Лікарями»" }
+              - { name: url, label: "Посилання", widget: string, hint: "YouTube-посилання покаже вбудоване відео. Будь-яке інше — кнопку «Читати»." }
+              - { name: image, label: "Обкладинка (для статей, необов'язково)", widget: image, required: false, hint: "Горизонтальна 16:9, напр. 1280×720." }
+              - { name: button, label: "Текст кнопки (необов'язково)", widget: string, required: false, hint: "За замовчуванням «Дивитись» для відео й «Читати» для решти." }
+
+  # ---------------------------------------------------------------- ЗАПИС
+  - name: booking
+    label: "📅 Графік і запис"
+    description: "Блок «Запис на прийом» на головній і сторінка «Онлайн-бесіда»."
+    editor: { preview: false }
+    files:
+      - name: booking
+        label: "Графік і запис"
+        file: content/booking.json
+        fields:
+          - name: announcement
+            label: "Оголошення над способами запису"
+            widget: object
+            hint: "Напр.: «З 20 по 30 грудня — відпустка, запис відкрито з 3 січня»."
+            fields:
+              - { name: enabled, label: "Показувати оголошення", widget: boolean, default: false }
+              - { name: text, label: "Текст", widget: text, required: false }
+          - name: inperson
+            label: "Очний прийом"
+            widget: object
+            fields:
+              - { name: enabled, label: "Показувати очний запис", widget: boolean, default: true }
+              - { name: clinic, label: "Клініка", widget: string }
+              - { name: address, label: "Адреса", widget: string }
+              - { name: map_url, label: "Посилання на карту", widget: string, required: false }
+              - name: phones
+                label: "Телефони"
+                label_singular: "телефон"
+                widget: list
+                summary: "{{fields.number}}"
+                fields:
+                  - { name: number, label: "Номер", widget: string, hint: "Напр.: +380 44 503 5003" }
+              - { name: hours, label: "Години роботи клініки", widget: string }
+              - name: schedule
+                label: "Мій графік консультацій (необов'язково)"
+                label_singular: "день"
+                widget: list
+                required: false
+                summary: "{{fields.day}} {{fields.time}}"
+                hint: "Якщо додати хоча б один рядок, у картці з'явиться табличка графіка."
+                fields:
+                  - { name: enabled, label: "Показувати", widget: boolean, default: true }
+                  - { name: day, label: "День", widget: string, hint: "Напр.: «Вівторок» або «12 грудня»" }
+                  - { name: time, label: "Час", widget: string, hint: "Напр.: «10:00–16:00»" }
+                  - { name: place, label: "Де (необов'язково)", widget: string, required: false }
+          - name: online
+            label: "Онлайн-бесіда"
+            widget: object
+            fields:
+              - { name: enabled, label: "Показувати онлайн-запис", widget: boolean, default: true }
+              - { name: price, label: "Ціна", widget: string, hint: "Також змініть її в «Послуги та ціни», якщо там є такий рядок." }
+              - { name: duration, label: "Тривалість", widget: string, hint: "Напр.: «до 30 хвилин»" }
+              - { name: telegram, label: "Telegram асистента (без @)", widget: string }
+          - name: waitlist
+            label: "Лист очікування (форма)"
+            widget: object
+            fields:
+              - { name: enabled, label: "Показувати форму", widget: boolean, default: true }
+              - { name: form_action, label: "Адреса форми Formspree", widget: string, hint: "Вигляду https://formspree.io/f/abcdwxyz" }

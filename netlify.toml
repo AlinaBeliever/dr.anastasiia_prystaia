@@ -1,6 +1,7 @@
-# Netlify: публікуємо папку site/, без збірки.
+# Netlify: перед публікацією збирає HTML з content/*.json (їх редагує адмінка /admin/).
 [build]
   publish = "site"
+  command = "node tools/build/build.mjs"
 
 # ПРОТОТИП: поки Анастасія не погодила публікацію (фото, тексти), не пускаємо пошуковики.
 # Перед публічним запуском ВИДАЛИТИ цей блок [[headers]] з X-Robots-Tag.
@@ -11,6 +12,13 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Адмінка ніколи не індексується (навіть після публічного запуску)
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-cache"
 
 [[headers]]
   for = "/assets/*"

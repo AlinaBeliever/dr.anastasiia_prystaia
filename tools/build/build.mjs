@@ -6,6 +6,23 @@ import * as D from "./data.mjs";
 const BUILD_V = Date.now().toString(36);
 const OUT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../site");
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+// Текст з адмінки: екрануємо HTML і дозволяємо просту розмітку:
+// **жирний**, [текст](https://посилання), [ПЛЕЙСХОЛДЕР] -> жовта позначка, новий рядок -> <br>
+const rich = (s = "") =>
+  esc(String(s).trim())
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" rel="noopener" target="_blank">$1</a>')
+    .replace(/\[([^\]]+)\](?!\()/g, '<span class="ph">[$1]</span>')
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\r?\n/g, "<br>");
+const txt = (s = "") => esc(String(s).trim());
+// Шлях до картинки з адмінки ("/assets/img/uploads/x.webp") -> відносно сторінки
+const asset = (root, p) => (/^https?:/.test(p) ? p : root + p.replace(/^\//, ""));
+// Якщо поруч лежить менша копія (-480.webp), даємо браузеру вибір
+const posterSrcset = (root, p) => {
+  const small = p.replace(/-720\.webp$/, "-480.webp");
+  return small !== p && fs.existsSync(path.join(OUT, small.replace(/^\//, ""))) ? `${asset(root, small)} 480w, ${asset(root, p)} 720w` : "";
+};
+const ytId = (u = "") => (u.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/) || [])[1];
 const ARROW = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
 const PHONE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>`;
 const IG_ICON = `<svg class="ico-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Instagram"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg>`;
@@ -116,7 +133,7 @@ function footer(root) {
       <p><strong>Важливо.</strong> Матеріали сайту мають освітній характер і не замінюють консультацію лікаря. Точний діагноз без огляду неможливий. Не займайтесь самолікуванням. Результат лікування залежить від індивідуальних особливостей. У невідкладній ситуації телефонуйте 103 або 112.</p>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 Анастасія Пристая. Прототип: <a href="https://alinabeliever.com" rel="noopener" target="_blank">alinabeliever.com</a></span>
+      <span>© 2026 Анастасія Пристая. Прототип: <a href="https://www.instagram.com/alina.believer" rel="noopener" target="_blank">@alina.believer</a></span>
     </div>
   </div>
 </footer>
@@ -152,8 +169,8 @@ const physician = {
   hospitalAffiliation: { "@type": "Hospital", name: "Клінічна лікарня «Феофанія» ДУС" },
   workLocation: {
     "@type": "MedicalClinic",
-    name: "OLYMED",
-    address: { "@type": "PostalAddress", streetAddress: "вул. Метрологічна, 17/1", addressLocality: "Київ", addressCountry: "UA" },
+    name: D.BOOKING.inperson.clinic,
+    address: { "@type": "PostalAddress", streetAddress: D.BOOKING.inperson.address.replace(/,\s*Київ\s*$/, ""), addressLocality: "Київ", addressCountry: "UA" },
     telephone: D.PHONES.map((p) => p.tel),
   },
 };
@@ -169,7 +186,8 @@ const bc = (items) => ({
   itemListElement: items.map(([n, u], i) => ({ "@type": "ListItem", position: i + 1, name: n, item: D.SITE + u })),
 });
 
-const MSG_ONLINE = "Добрий день! Хочу записатися на онлайн-бесіду з Анастасією Пристаєю (1500 грн, до 30 хв). Підкажіть, будь ласка, вільні дати та як оплатити.";
+const ONLINE = D.BOOKING.online;
+const MSG_ONLINE = `Добрий день! Хочу записатися на онлайн-бесіду з Анастасією Пристаєю (${ONLINE.price}, ${ONLINE.duration}). Підкажіть, будь ласка, вільні дати та як оплатити.`;
 
 // ---------------- ГОЛОВНА ----------------
 function home() {
@@ -209,7 +227,18 @@ function home() {
   const prep = D.PREP.map(
     ([t, s]) => `<li><label class="check"><input type="checkbox" data-prep><span class="check__box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><strong>${t}</strong><span class="small">${s}</span></span></label></li>`
   ).join("\n");
-  const prices = D.PRICES.map(([t, n, p]) => `<tr><th scope="row">${t}${n ? `<span class="note">${n}</span>` : ""}</th><td>${p}</td></tr>`).join("\n");
+  const prices = D.SERVICES.items.map(({ title, note, price }) => `<tr><th scope="row">${rich(title)}${note ? `<span class="note">${rich(note)}</span>` : ""}</th><td>${rich(price)}</td></tr>`).join("\n");
+  const A = D.ACHIEVEMENTS;
+  const stats = A.stats.length ? `
+        <ul class="stats">
+${A.stats.map((x) => `          <li><b>${txt(x.value)}</b><span>${rich(x.text)}</span></li>`).join("\n")}
+        </ul>` : "";
+  const facts = A.facts.length ? `
+        <dl class="facts">
+${A.facts.map((x) => `          <div><dt>${txt(x.title)}</dt><dd>${rich(x.text)}</dd></div>`).join("\n")}
+        </dl>` : "";
+  const B = D.BOOKING;
+  const IP = B.inperson;
 
   const body = `${header(R, "")}
 <main id="main">
@@ -390,15 +419,7 @@ function home() {
         <h2 id="about-title" data-mask>Просто Анастасія, <em>дякую</em></h2>
         <p>Мене звати Анастасія Володимирівна Пристая, і я не люблю, коли мене називають «Настя» (хіба що близькі друзі). Я проктолог. Це якщо коротко! Бо в трудовій написано лікар-хірург-проктолог, а по факту — колопроктолог; друга моя спеціалізація — онкохірургія.</p>
         <p>Я лікую хірургічні хвороби товстої кишки, анального каналу та періанальної ділянки. Моя місія — довести, що проктологія не соромна, а важлива, а огляд у проктолога — не покарання, а процедура, яку можна зробити комфортною.</p>
-        <p>Дупця — такий самий орган, як і всі інші: вона заслуговує на увагу й турботу без сорому.</p>
-        <ul class="stats">
-          <li><b>300+</b><span>втручань на рік: промежинних і черевної порожнини (за моїми даними 2023 року).</span></li>
-        </ul>
-        <dl class="facts">
-          <div><dt>Де</dt><dd>Клінічна лікарня «Феофанія» ДУС (Київ): тут оперую.<br>Консультую також у The Beauty clinic; очний запис — в OLYMED.</dd></div>
-          <div><dt>Ще</dt><dd>Директорка з питань міжнародного партнерства та зв'язків із громадськістю в GMKA; частина команди <a href="${D.IG_SVIY}" rel="noopener" target="_blank">@sviy.doc</a>.</dd></div>
-          <div><dt>Освіта</dt><dd><span class="ph">[ОСВІТА І ПІДВИЩЕННЯ КВАЛІФІКАЦІЇ: уточнити]</span></dd></div>
-        </dl>
+        <p>Дупця — такий самий орган, як і всі інші: вона заслуговує на увагу й турботу без сорому.</p>${stats}${facts}
       </div>
     </div>
 
@@ -422,13 +443,13 @@ function home() {
     </div>
     <div class="price-wrap" data-reveal>
       <table class="price-table">
-        <caption>Консультації та додаткові процедури</caption>
+        <caption>${rich(D.SERVICES.caption)}</caption>
         <thead><tr><th scope="col">Послуга</th><th scope="col">Вартість</th></tr></thead>
         <tbody>${prices}</tbody>
       </table>
     </div>
     <div class="price-foot">
-      <p><strong>Ціни орієнтовні</strong> (за інформацією лікарки, листопад 2026). Остаточну вартість підтверджує адміністратор клініки. Обсяг і метод лікування визначає лікар під час консультації.</p>
+      <p>${rich(D.SERVICES.footnote)}</p>
     </div>
   </div>
 </section>
@@ -443,33 +464,39 @@ function home() {
 
     <div class="webinar-grid" aria-label="Вебінари">
       ${D.WEBINARS.map((w, i) => {
-        const full = w.title + (w.sub && w.slug !== "znebolennia" ? ". " + w.sub : "");
-        const msg = `Добрий день! Хочу придбати вебінар «${w.slug === "znebolennia" ? w.title : full}» (${w.price}). Підкажіть, будь ласка, як оплатити та отримати доступ. Моя пошта gmail: `;
-        const buy = `<a class="btn" href="${D.tgLink(msg)}" rel="noopener" target="_blank">${TG_ICON}Придбати</a>`;
+        const id = "w-" + (w.id || i + 1);
+        const facts = [["Вартість", w.price], ["Тривалість", w.dur], ["Доступ", w.access]].filter(([, v]) => v);
+        const msg = `Добрий день! Хочу придбати: ${(w.kind || "вебінар").toLowerCase()} «${w.title}» (${w.price}). Підкажіть, будь ласка, як оплатити та отримати доступ. Моя пошта gmail: `;
+        const buy = `<a class="btn" href="${w.buy_url ? esc(w.buy_url) : D.tgLink(msg)}" rel="noopener" target="_blank">${w.buy_url ? "" : TG_ICON}${txt(w.buy_label || "Придбати")}</a>`;
+        const srcset = w.poster ? posterSrcset(R, w.poster) : "";
+        const poster = w.poster
+          ? `<picture class="wcard__poster">${srcset ? `
+          <source type="image/webp" srcset="${srcset}" sizes="(min-width: 1000px) 380px, (min-width: 640px) 45vw, 90vw">` : ""}
+          <img src="${asset(R, w.poster)}" width="720" height="720" loading="lazy" decoding="async" alt="${txt(w.alt || w.title)}">
+        </picture>`
+          : "";
+        const list = (arr) => `<ul class="webinar__list">${arr.map((x) => `<li>${rich(x)}</li>`).join("")}</ul>`;
         return `<article class="wcard" data-reveal style="--d:${(i % 3) * 0.08}s">
-        <picture class="wcard__poster">
-          <source type="image/webp" srcset="assets/img/webinar-${w.slug}-480.webp 480w, assets/img/webinar-${w.slug}-720.webp 720w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 45vw, 90vw">
-          <img src="assets/img/webinar-${w.slug}-720.webp" width="720" height="720" loading="lazy" decoding="async" alt="${w.alt}">
-        </picture>
+        ${poster}
         <div class="wcard__body">
-          <h3>${w.title}</h3>
-          <p class="wcard__meta">${w.price}${w.dur ? " · " + w.dur : ""}</p>
+          <h3>${txt(w.title)}</h3>
+          <p class="wcard__meta">${txt(w.price)}${w.dur ? " · " + txt(w.dur) : ""}</p>
           <div class="wcard__actions">
-            <button type="button" class="btn btn--ghost" data-wopen="w-${w.slug}">Детальніше</button>
+            <button type="button" class="btn btn--ghost" data-wopen="${id}">Детальніше</button>
             ${buy}
           </div>
         </div>
-        <dialog class="wdialog" id="w-${w.slug}" aria-labelledby="w-${w.slug}-t">
+        <dialog class="wdialog" id="${id}" aria-labelledby="${id}-t">
           <button type="button" class="wdialog__close" data-wclose aria-label="Закрити">×</button>
-          <span class="learn-card__kind">Вебінар</span>
-          <h3 id="w-${w.slug}-t">${w.title}</h3>
-          ${w.sub ? `<p class="wcard__sub">${w.sub}</p>` : ""}
-          <p class="wcard__lead">${w.lead}</p>
-          <h4>Про що</h4>
-          <ul class="webinar__list">${w.items.map((x) => `<li>${x}</li>`).join("")}</ul>
-          ${w.aud ? `<h4>Для кого</h4><ul class="webinar__list">${w.aud.map((x) => `<li>${x}</li>`).join("")}</ul>` : ""}
-          ${w.note ? `<p class="webinar__note">${w.note}</p>` : ""}
-          <dl class="wcard__facts"><div><dt>Вартість</dt><dd>${w.price}</dd></div>${w.dur ? `<div><dt>Тривалість</dt><dd>${w.dur}</dd></div>` : ""}${w.access ? `<div><dt>Доступ</dt><dd>${w.access}</dd></div>` : ""}</dl>
+          <span class="learn-card__kind">${txt(w.kind || "Вебінар")}</span>
+          <h3 id="${id}-t">${txt(w.title)}</h3>
+          ${w.sub ? `<p class="wcard__sub">${rich(w.sub)}</p>` : ""}
+          ${w.lead ? `<p class="wcard__lead">${rich(w.lead)}</p>` : ""}
+          ${w.items && w.items.length ? `<h4>Про що</h4>
+          ${list(w.items)}` : ""}
+          ${w.aud && w.aud.length ? `<h4>Для кого</h4>${list(w.aud)}` : ""}
+          ${w.note ? `<p class="webinar__note">${rich(w.note)}</p>` : ""}
+          <dl class="wcard__facts">${facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${txt(v)}</dd></div>`).join("")}</dl>
           ${buy}
         </dialog>
       </article>`;
@@ -477,15 +504,20 @@ function home() {
     </div>
 
     <div class="cards3 learn-media">
-      <figure class="video-card" data-reveal>
-        <div class="video-card__frame"><iframe src="https://www.youtube-nocookie.com/embed/zvl4JwCSOd4" title="Як правильно ходити в туалет? Відверта розмова з проктологом" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-        <figcaption><span class="learn-card__kind">Відео</span><strong>Як правильно ходити в туалет? Відверта розмова з проктологом</strong><span class="small">«Між Нами Лікарями»</span><a class="btn btn--sm video-card__watch" href="https://www.youtube.com/watch?v=zvl4JwCSOd4" rel="noopener" target="_blank">Дивитись</a></figcaption>
-      </figure>
-      <figure class="video-card" data-reveal style="--d:.1s">
-        <div class="video-card__frame"><iframe src="https://www.youtube-nocookie.com/embed/ZgUXv8izj_o" title="Анастасія Пристая: про хірургію, великі гроші, три роботи, приватну медицину та принципи" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-        <figcaption><span class="learn-card__kind">Подкаст</span><strong>Про хірургію, великі гроші, три роботи, приватну медицину та принципи</strong><span class="small">«Заплати собі сама» з Оксаною Железко</span><a class="btn btn--sm video-card__watch" href="https://www.youtube.com/watch?v=ZgUXv8izj_o" rel="noopener" target="_blank">Дивитись</a></figcaption>
-      </figure>
-      <article class="learn-card learn-card--ig" data-reveal style="--d:.2s"><div class="learn-card__top"><img class="learn-card__avatar" src="assets/img/portrait-constellation-520.webp" width="520" height="520" loading="lazy" decoding="async" alt="Анастасія Пристая в шапочці із сузір'ями"><span class="learn-card__kind learn-card__kind--ig">${IG_ICON}</span></div><h3>Говорю так само, як тут</h3><p>Сторіс, хайлайти, Reels.<br>Більше тут <svg class="arrow-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="18" height="18" style="display:inline-block;vertical-align:-0.2em;margin-left:0.25em"><path d="M12 5v14M6 13l6 6 6-6"/></svg></p><a class="link-arrow ig-link" href="${D.IG}" rel="noopener" target="_blank"><span class="ig-nick">@dr.anastasiia_prystaia</span> ${ARROW}</a></article>
+      ${D.MEDIA.map((m, i) => {
+        const yt = ytId(m.url);
+        const frame = yt
+          ? `<div class="video-card__frame"><iframe src="https://www.youtube-nocookie.com/embed/${yt}" title="${txt(m.title)}" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>`
+          : m.image
+            ? `<div class="video-card__frame video-card__frame--img"><img src="${asset(R, m.image)}" alt="" loading="lazy" decoding="async"></div>`
+            : "";
+        const btn = m.url ? `<a class="btn btn--sm video-card__watch" href="${esc(m.url)}" rel="noopener" target="_blank">${txt(m.button || (yt ? "Дивитись" : "Читати"))}</a>` : "";
+        return `<figure class="video-card" data-reveal${i ? ` style="--d:${(i % 3) * 0.1}s"` : ""}>
+        ${frame}
+        <figcaption><span class="learn-card__kind">${txt(m.kind || "Медіа")}</span><strong>${txt(m.title)}</strong>${m.source ? `<span class="small">${txt(m.source)}</span>` : ""}${btn}</figcaption>
+      </figure>`;
+      }).join("\n      ")}
+      <article class="learn-card learn-card--ig" data-reveal style="--d:${(D.MEDIA.length % 3) * 0.1}s"><div class="learn-card__top"><img class="learn-card__avatar" src="assets/img/portrait-constellation-520.webp" width="520" height="520" loading="lazy" decoding="async" alt="Анастасія Пристая в шапочці із сузір'ями"><span class="learn-card__kind learn-card__kind--ig">${IG_ICON}</span></div><h3>Говорю так само, як тут</h3><p>Сторіс, хайлайти, Reels.<br>Більше тут <svg class="arrow-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="18" height="18" style="display:inline-block;vertical-align:-0.2em;margin-left:0.25em"><path d="M12 5v14M6 13l6 6 6-6"/></svg></p><a class="link-arrow ig-link" href="${D.IG}" rel="noopener" target="_blank"><span class="ig-nick">@dr.anastasiia_prystaia</span> ${ARROW}</a></article>
     </div>
   </div>
 </section>
@@ -507,31 +539,35 @@ function home() {
     <div class="section-head">
       <p class="kicker"><b>10</b>Запис</p>
       <h2 id="zapys-title" data-mask>Запис <em>на прийом</em></h2>
-      <p>Проктолог у Києві: очно в клініці OLYMED або онлайн-бесіда в Telegram. Оберіть зручний шлях.</p>
-    </div>
-    <div class="paths">
+      <p>Проктолог у Києві: ${[IP.enabled !== false && `очно в клініці ${txt(IP.clinic)}`, ONLINE.enabled !== false && "онлайн-бесіда в Telegram"].filter(Boolean).join(" або ")}. Оберіть зручний шлях.</p>
+    </div>${B.announcement && B.announcement.enabled && B.announcement.text ? `
+    <div class="booking-notice" role="note" data-reveal>${rich(B.announcement.text)}</div>` : ""}
+    <div class="paths">${IP.enabled !== false ? `
       <article class="path" data-reveal>
         <span class="path__kicker">Очно</span>
-        <h3>Клініка «OLYMED»</h3>
-        <address><a href="https://www.google.com/maps/place/OLYMED/@50.3503196,30.4772587,17z/data=!3m1!4b1!4m6!3m5!1s0x40d4c86f9972cccb:0x77421cbf0e99f104!8m2!3d50.3503196!4d30.4772587!16s%2Fg%2F11c13krbw1?entry=ttu&g_ep=EgoyMDI2MTExMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">вул. Метрологічна, 17/1, Київ</a></address>
+        <h3>Клініка «${txt(IP.clinic)}»</h3>
+        <address>${IP.map_url ? `<a href="${esc(IP.map_url)}" target="_blank" rel="noopener">${txt(IP.address)}</a>` : txt(IP.address)}</address>
         <div class="path__phones">
           ${D.PHONES.map((p) => `<a class="tel" href="tel:${p.tel}">${PHONE}<span>${p.label}</span></a>`).join("\n          ")}
         </div>
-        <p class="note"><strong>Під час запису уточніть, що вам саме до Анастасії Пристаї.</strong> Клініка працює: ${D.CLINIC_HOURS}.</p>
+        <p class="note"><strong>Під час запису уточніть, що вам саме до Анастасії Пристаї.</strong> Клініка працює: ${txt(D.CLINIC_HOURS)}.</p>${IP.schedule.length ? `
+        <dl class="schedule">
+${IP.schedule.map((r) => `          <div><dt>${txt(r.day)}</dt><dd>${txt(r.time)}${r.place ? `<span>${txt(r.place)}</span>` : ""}</dd></div>`).join("\n")}
+        </dl>` : ""}
         <ul class="mini-list">
           <li>Є страховка? Після візиту на рецепції видадуть акт виконаних робіт — подасте на відшкодування самостійно.</li>
         </ul>
-      </article>
+      </article>` : ""}${ONLINE.enabled !== false ? `
       <article class="path" data-reveal style="--d:.1s">
         <span class="path__kicker">Онлайн</span>
         <h3>Бесіда в Telegram</h3>
-        <p class="path__price">1500 грн · до 30 хвилин</p>
+        <p class="path__price">${txt(ONLINE.price)} · ${txt(ONLINE.duration)}</p>
         <p>Письмова розмова в Telegram. Запис — через мого асистента в Telegram (@${D.TG_HANDLE}): там пояснять усі деталі, надішлють реквізити ФОП і анкету.</p>
         <div><a class="btn" href="${D.tgLink(MSG_ONLINE)}" rel="noopener" target="_blank">${TG_ICON}Написати асистенту ${ARROW}</a></div>
         <p class="note"><strong>Це освітній формат, а не повноцінна консультація:</strong> точний діагноз без огляду неможливий. <a href="online/">Прочитати правила</a>.</p>
-      </article>
+      </article>` : ""}
     </div>
-
+${B.waitlist.enabled !== false ? `
     <div class="waitlist" data-reveal>
       <div>
         <h3>Немає вільного місця? <em>Лист очікування</em></h3>
@@ -550,7 +586,7 @@ function home() {
         <button class="btn" type="submit">Залишити контакт</button>
         <div class="form__status" data-form-status role="status" hidden></div>
       </form>
-    </div>
+    </div>` : ""}
   </div>
 </section>
 
@@ -679,7 +715,7 @@ function online() {
     <ol class="steps-long">
       <li data-reveal><div><h3>Напишіть асистенту в Telegram</h3><p>Чат <a href="${D.tgLink(MSG_ONLINE)}" rel="noopener" target="_blank">@${D.TG_HANDLE}</a>: там вам пояснять усі деталі.</p></div></li>
       <li data-reveal><div><h3>Оплата й анкета</h3><p>Асистент надасть рахунок ФОП (усі податки сплачуються) і посилання на анкету. Потім — посилання на Telegram.</p></div></li>
-      <li data-reveal><div><h3>Спілкуємось у Telegram письмово</h3><p>Зустрічі відбуваються у форматі вільного листування. Тривалість — до 30 хвилин. Я можу відповідати із затримкою — не ображайтесь, робота :)</p></div></li>
+      <li data-reveal><div><h3>Спілкуємось у Telegram письмово</h3><p>Зустрічі відбуваються у форматі вільного листування. Тривалість — ${txt(ONLINE.duration)}. Я можу відповідати із затримкою — не ображайтесь, робота :)</p></div></li>
       <li data-reveal><div><h3>Після бесіди</h3><p>Протягом тижня після консультації дозволяються три уточнювальні запитання. При необхідності вас запишуть на очний огляд або операцію.</p></div></li>
       <li data-reveal><div><h3>Складний випадок</h3><p>Якщо ваш випадок складний і потребує ретельнішого обговорення, можливий Zoom-формат. Його запропонують після анкетування.</p></div></li>
     </ol>
@@ -693,8 +729,8 @@ function online() {
         <h2 id="facts-h" style="margin-top:0">Формат коротко</h2>
         <ul class="bullets">
           <li><span><strong>Платформа:</strong> Telegram, письмова розмова.</span></li>
-          <li><span><strong>Тривалість:</strong> до 30 хвилин.</span></li>
-          <li><span><strong>Вартість:</strong> 1500 грн. Оплата — безготівково, на умовах передоплати, після узгодження дати й часу (рахунок ФОП).</span></li>
+          <li><span><strong>Тривалість:</strong> ${txt(ONLINE.duration)}.</span></li>
+          <li><span><strong>Вартість:</strong> ${txt(ONLINE.price)}. Оплата — безготівково, на умовах передоплати, після узгодження дати й часу (рахунок ФОП).</span></li>
           <li><span><strong>Скасування (за офертою):</strong> якщо ви скасували не пізніше ніж за 24 години до початку — повертається повна сума. Якщо пізніше — кошти не повертаються, але час можна перенести на інший день.</span></li>
           <li><span><strong>Запис:</strong> через асистента в Telegram (@${D.TG_HANDLE}).</span></li>
         </ul>
@@ -722,7 +758,7 @@ ${bookbar(R)}${tail(R, ["core"])}`;
     head({
       root: R,
       title: "Онлайн-консультація проктолога в Telegram — Анастасія Пристая",
-      desc: "Онлайн-бесіда з лікарем-проктологом Анастасією Пристаєю: формат, вартість 1500 грн, правила й застереження. Освітній формат, не заміна очного огляду.",
+      desc: `Онлайн-бесіда з лікарем-проктологом Анастасією Пристаєю: формат, вартість ${ONLINE.price}, правила й застереження. Освітній формат, не заміна очного огляду.`,
       path: "/online/",
       ld: [bc([["Головна", "/"], ["Онлайн-бесіда", "/online/"]])],
     }) + body

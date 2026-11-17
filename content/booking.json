@@ -1,0 +1,29 @@
+{
+  "announcement": {
+    "enabled": false,
+    "text": ""
+  },
+  "inperson": {
+    "enabled": true,
+    "clinic": "OLYMED",
+    "address": "вул. Метрологічна, 17/1, Київ",
+    "map_url": "https://www.google.com/maps/place/OLYMED/@50.3503196,30.4772587,17z/data=!3m1!4b1!4m6!3m5!1s0x40d4c86f9972cccb:0x77421cbf0e99f104!8m2!3d50.3503196!4d30.4772587!16s%2Fg%2F11c13krbw1?entry=ttu&g_ep=EgoyMDI2MTExMC4wIKXMDSoASAFQAw%3D%3D",
+    "phones": [
+      {
+        "number": "+380 44 503 5003"
+      }
+    ],
+    "hours": "пн–пт 9:00–18:00, сб–нд — зачинено",
+    "schedule": []
+  },
+  "online": {
+    "enabled": true,
+    "price": "1500 грн",
+    "duration": "до 30 хвилин",
+    "telegram": "prystaia_online"
+  },
+  "waitlist": {
+    "enabled": true,
+    "form_action": "https://formspree.io/f/YOUR_FORM_ID"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "enabled": true,
+      "kind": "Відео",
+      "title": "Як правильно ходити в туалет? Відверта розмова з проктологом",
+      "source": "«Між Нами Лікарями»",
+      "url": "https://www.youtube.com/watch?v=zvl4JwCSOd4",
+      "image": "",
+      "button": ""
+    },
+    {
+      "enabled": true,
+      "kind": "Подкаст",
+      "title": "Про хірургію, великі гроші, три роботи, приватну медицину та принципи",
+      "source": "«Заплати собі сама» з Оксаною Железко",
+      "url": "https://www.youtube.com/watch?v=ZgUXv8izj_o",
+      "image": "",
+      "button": ""
+    }
+  ]
+}

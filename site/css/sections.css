@@ -603,3 +603,14 @@ input[type="range"]:focus-visible { outline: 3px solid var(--lime-500); outline-
   .finder__opts { gap: 0.4rem; }
   .finder__opts .pill { min-height: 2.25rem; padding: 0.3rem 0.8rem; font-size: 0.8rem; }
 }
+
+/* =============== Вміст з адмінки: оголошення, графік, публікації з фото =============== */
+.booking-notice { margin-bottom: var(--sp-5); padding: var(--sp-4) var(--sp-5); border-radius: var(--r-lg); border: 1px solid var(--lime-500); background: rgb(182 217 76 / 0.12); color: var(--text); font-weight: 600; }
+.booking-notice a { color: var(--lime-500); }
+.schedule { display: grid; gap: 0; margin: var(--sp-2) 0 0; }
+.schedule > div { display: grid; grid-template-columns: minmax(6.5rem, auto) 1fr; gap: var(--sp-3); padding-block: var(--sp-2); border-bottom: 1px solid var(--line); }
+.schedule dt { font-size: var(--fs-xs); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--lime-500); padding-top: 0.2em; }
+.schedule dd { margin: 0; font-weight: 600; }
+.schedule dd span { display: block; font-weight: 400; font-size: var(--fs-sm); color: var(--text-soft); }
+.video-card__frame--img { background: var(--ink-800); }
+.video-card__frame--img img { display: block; width: 100%; height: 100%; object-fit: cover; }
