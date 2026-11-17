@@ -36,12 +36,13 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 h1, h2, h3, h4, p, figure, blockquote, dl, dd { margin: 0; }
 
 h1, h2, h3 {
-  font-family: var(--font-display);
-  font-weight: 600;
-  line-height: var(--lh-tight);
-  letter-spacing: -0.01em;
+  font-family: var(--font-head);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
   text-wrap: balance;
 }
+h3 { font-weight: 700; letter-spacing: -0.02em; }
 h1 { font-size: var(--fs-h1); }
 h2 { font-size: var(--fs-h2); }
 h3 { font-size: var(--fs-h3); line-height: var(--lh-snug); }
@@ -52,6 +53,15 @@ em, .accent-italic {
   font-style: italic;
   font-weight: 500;
 }
+/* Акцентне слово в заголовку: курсив із «лаймовим маркером», як підкреслення хірургічним маркером */
+h1 em, h2 em, h3 em {
+  letter-spacing: -0.01em;
+  padding-inline: 0.06em;
+  background: linear-gradient(transparent 66%, var(--marker) 66%, var(--marker) 92%, transparent 92%);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.theme-dark h1 em, .theme-dark h2 em, .theme-dark h3 em { color: var(--lime-500); }
 
 a {
   color: var(--accent-text);
@@ -128,8 +138,22 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .theme-dark .eyebrow { color: var(--sand-300); }
 
-.section-head { max-width: 44rem; display: grid; gap: var(--sp-4); margin-bottom: var(--sp-7); }
-.section-head p { color: var(--text-soft); font-size: var(--fs-lg); }
+/* Заголовок секції: редакційна «шапка» з номером розділу і тонкою лінією */
+.section-head { display: grid; gap: var(--sp-4); margin-bottom: var(--sp-7); padding-top: var(--sp-5); border-top: 1px solid var(--line); }
+.section-head > * { max-width: 44rem; }
+.section-head p:not(.kicker) { color: var(--text-soft); font-size: var(--fs-lg); }
+.kicker {
+  display: flex; align-items: baseline; gap: 0.75rem;
+  font-size: var(--fs-xs); font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--text-muted);
+}
+.kicker b { font-size: var(--fs-sm); letter-spacing: 0.04em; color: var(--text); font-weight: 800; }
+.kicker b::after { content: ""; display: inline-block; width: 6px; height: 6px; margin-left: 0.6rem; border-radius: 50%; background: var(--lime-500); vertical-align: 0.15em; }
+@media (min-width: 900px) {
+  .section-head:has(> .kicker) { grid-template-columns: 13rem minmax(0, 1fr); column-gap: var(--sp-6); }
+  .section-head > .kicker { grid-row: 1 / span 3; padding-top: 0.9rem; }
+  .section-head > :not(.kicker) { grid-column: 2; }
+}
 .section-head--center { margin-inline: auto; text-align: center; justify-items: center; }
 
 .lede { font-size: var(--fs-lg); color: var(--text-soft); max-width: 40rem; }
@@ -155,7 +179,7 @@ a:hover { text-decoration-thickness: 2px; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.6rem;
+  gap: 0.65rem;
   min-height: 3.25rem;
   padding: 0.85rem 1.7rem;
   border: 2px solid transparent;
@@ -169,13 +193,18 @@ a:hover { text-decoration-thickness: 2px; }
   text-align: center;
   transition: background-color var(--t-fast) var(--ease-soft), transform var(--t-fast) var(--ease-soft), box-shadow var(--t-fast) var(--ease-soft);
 }
+.btn:not(.btn--ghost):not(:has(svg))::before {
+  content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--btn-dot);
+  transition: transform var(--t-base) var(--ease-out);
+}
 .btn:hover { background: var(--_bg-h); transform: translateY(-2px); box-shadow: var(--shadow-md); text-decoration: none; }
+.btn:hover::before { transform: scale(1.5); }
 .btn:active { transform: translateY(0); }
 .btn svg { width: 1.1em; height: 1.1em; flex: none; }
 
 .btn--ghost {
   --_bg: transparent;
-  --_bg-h: rgb(251 245 238 / 0.1);
+  --_bg-h: color-mix(in srgb, currentColor 8%, transparent);
   --_fg: var(--text);
   border-color: currentColor;
 }
@@ -190,8 +219,9 @@ a:hover { text-decoration-thickness: 2px; }
   font-weight: 700;
   color: var(--accent-text);
   text-decoration: none;
-  border-bottom: 2px solid currentColor;
+  border-bottom: 2px solid var(--underline);
   padding-bottom: 2px;
+  transition: gap var(--t-base) var(--ease-out);
 }
 .link-arrow:hover { gap: 0.8rem; }
 .link-arrow svg { width: 1em; height: 1em; transition: transform var(--t-fast); }
@@ -208,7 +238,11 @@ a:hover { text-decoration-thickness: 2px; }
   color: var(--cream-50);
   border-bottom: 1px solid rgb(251 245 238 / 0.1);
   --focus: var(--lime-500);
-  --accent-text: var(--terra-300);
+  --accent-text: var(--lime-500);
+  --btn-bg: var(--lime-500);
+  --btn-bg-hover: var(--lime-400);
+  --btn-text: var(--ink-900);
+  --btn-dot: var(--ink-900);
 }
 .site-header .container { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); }
 
@@ -315,7 +349,7 @@ a:hover { text-decoration-thickness: 2px; }
 @media (max-width: 899.98px) { body { padding-bottom: var(--bar-h); } }
 
 /* ---------- Підвал ---------- */
-.site-footer { background: var(--ink-900); color: var(--cream-50); padding-block: var(--sp-8) var(--sp-6); font-size: var(--fs-sm); --text-muted: var(--muted-on-dark); --focus: var(--lime-500); --accent-text: var(--terra-300); }
+.site-footer { background: var(--ink-900); color: var(--cream-50); padding-block: var(--sp-8) var(--sp-6); font-size: var(--fs-sm); --text-muted: var(--muted-on-dark); --focus: var(--lime-500); --accent-text: var(--lime-500); --underline: var(--lime-500); }
 .footer-grid { display: grid; gap: var(--sp-7); grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 800px) { .footer-grid { grid-template-columns: 1.3fr 1fr 1fr; } }
 .footer-grid h2 { font-family: var(--font-body); font-size: var(--fs-xs); letter-spacing: 0.16em; text-transform: uppercase; color: var(--sand-300); margin-bottom: var(--sp-4); font-weight: 700; }
@@ -324,8 +358,3 @@ a:hover { text-decoration-thickness: 2px; }
 .footer-note { margin-top: var(--sp-7); padding-top: var(--sp-5); border-top: 1px solid rgb(251 245 238 / 0.14); color: var(--muted-on-dark); display: grid; gap: var(--sp-3); max-width: 62rem; }
 .footer-note strong { color: var(--cream-50); }
 .footer-bottom { display: flex; flex-wrap: wrap; gap: var(--sp-3) var(--sp-5); justify-content: space-between; align-items: center; margin-top: var(--sp-5); color: var(--muted-on-dark); }
-.motion-toggle {
-  background: transparent; border: 1px solid rgb(251 245 238 / 0.4); color: var(--cream-50);
-  border-radius: var(--r-pill); padding: 0.45rem 1rem; font-size: var(--fs-xs); font-weight: 600;
-}
-.motion-toggle:hover { background: rgb(251 245 238 / 0.1); }

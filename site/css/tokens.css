@@ -79,6 +79,9 @@
   --lime-500: #b6d94c;     /* «хірургічний» спалах: лише крапки/зірки/фокус */
   --lime-100: #e9f2be;
 
+  --lime-600: #8fb22a;     /* лайм для підкреслень на світлому (декор, не текст) */
+  --lime-400: #c6e46a;     /* hover лаймової кнопки */
+
   --muted-on-light: #575b78;
   --muted-on-dark: #b9bcd6;
   --ink-soft: #3d4160;
@@ -89,16 +92,22 @@
   --text: var(--ink-800);
   --text-soft: var(--ink-soft);
   --text-muted: var(--muted-on-light);
-  --accent-text: var(--link);
+  --accent-text: var(--ink-800);
+  --voice: var(--terra-600);   /* її «голос»: курсивні жарти-ремарки */
+  --underline: var(--lime-600);
+  --marker: var(--lime-500);
   --line: rgb(20 24 58 / 0.14);
   --card: #ffffff;
   --focus: var(--ink-800);
 
-  --btn-bg: var(--terra-600);
-  --btn-bg-hover: var(--terra-700);
-  --btn-text: #fff8f0;
+  /* Кнопки: «хірургічна форма» — темно-синій + лайм, як її шапочка й рукавички */
+  --btn-bg: var(--ink-800);
+  --btn-bg-hover: var(--ink-900);
+  --btn-text: var(--cream-50);
+  --btn-dot: var(--lime-500);
 
   /* ---------- Типографіка ---------- */
+  --font-head: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-display: "Playfair Display", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   --font-body: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
@@ -135,8 +144,8 @@
   /* ---------- Радіуси ---------- */
   --r-sm: 0.5rem;
   --r-md: 0.875rem;
-  --r-lg: 1.5rem;
-  --r-xl: 2.25rem;
+  --r-lg: 1.25rem;
+  --r-xl: 1.75rem;
   --r-pill: 999px;
   --r-arch: 999px 999px var(--r-lg) var(--r-lg);
 
@@ -165,10 +174,17 @@
   --text: var(--cream-50);
   --text-soft: #e6e1ea;
   --text-muted: var(--muted-on-dark);
-  --accent-text: var(--terra-300);
+  --accent-text: var(--lime-500);
+  --voice: var(--sand-300);
+  --underline: var(--lime-500);
+  --marker: transparent;
   --line: rgb(251 245 238 / 0.18);
   --card: var(--ink-700);
   --focus: var(--lime-500);
+  --btn-bg: var(--lime-500);
+  --btn-bg-hover: var(--lime-400);
+  --btn-text: var(--ink-900);
+  --btn-dot: var(--ink-900);
 }
 .theme-sand {
   color: var(--text);

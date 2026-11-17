@@ -1,6 +1,6 @@
 /* ==========================================================================
    motion.css — анімації. Тільки transform та opacity.
-   Усе вимикається через prefers-reduced-motion та кнопку «Вимкнути анімації».
+   Усе вимикається через prefers-reduced-motion.
    ========================================================================== */
 
 /* Без JS усе видно одразу. Ховаємо для появи лише коли JS живий. */
@@ -27,9 +27,6 @@
 .step.is-active .step__art::before { animation: orbit 14s linear infinite; transform-origin: 160% 220%; }
 @keyframes orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-/* Hero: фото «дихає» */
-@keyframes float { from { transform: translateY(0); } to { transform: translateY(-8px); } }
-
 /* Підпис-логотип: «пишеться» один раз */
 .logo__name { animation: logo-in 1.1s var(--ease-out) both; }
 @keyframes logo-in { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: none; } }
@@ -43,5 +40,3 @@
   *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; transition-delay: 0s !important; scroll-behavior: auto !important; }
   .js [data-reveal], .js [data-mask] .w > span { opacity: 1 !important; transform: none !important; }
 }
-html[data-motion="off"] *, html[data-motion="off"] *::before, html[data-motion="off"] *::after { animation: none !important; transition-duration: 0.01ms !important; transition-delay: 0s !important; scroll-behavior: auto !important; }
-html[data-motion="off"] [data-reveal], html[data-motion="off"] [data-mask] .w > span { opacity: 1 !important; transform: none !important; }

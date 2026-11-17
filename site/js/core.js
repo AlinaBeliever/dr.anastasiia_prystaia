@@ -1,31 +1,15 @@
-/* core.js — меню, поява елементів, «маска» заголовків, перемикач анімацій, липка панель запису */
+/* core.js — меню, поява елементів, «маска» заголовків, липка панель запису */
 (() => {
   "use strict";
   const d = document;
   const root = d.documentElement;
   const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  /** Чи дозволені анімації зараз (системне налаштування + наша кнопка) */
-  const motionOK = () => !mq.matches && root.dataset.motion !== "off";
+  /** Анімації увімкнені завжди; вимикаються лише системним налаштуванням «Зменшити рух» */
+  const motionOK = () => !mq.matches;
   window.motionOK = motionOK;
   const announce = () => window.dispatchEvent(new CustomEvent("motionchange"));
   (mq.addEventListener ? mq.addEventListener.bind(mq, "change") : mq.addListener.bind(mq))(announce);
-
-  // ---------- Перемикач анімацій ----------
-  d.querySelectorAll("[data-motion-toggle]").forEach((btn) => {
-    const sync = () => {
-      const off = root.dataset.motion === "off";
-      d.querySelectorAll("[data-motion-toggle]").forEach((b) => {
-        b.setAttribute("aria-pressed", String(off));
-        b.textContent = off ? "Увімкнути анімації" : "Вимкнути анімації";
-      });
-    };
-    btn.addEventListener("click", () => {
-      root.dataset.motion = root.dataset.motion === "off" ? "on" : "off";
-      sync();
-      announce();
-    });
-  });
 
   // ---------- Мобільне меню ----------
   const menuBtn = d.querySelector(".menu-btn");

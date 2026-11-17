@@ -20,6 +20,7 @@
 <meta property="og:image:alt" content="Анастасія Пристая, лікар-колопроктолог, у лаймовій шапочці">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
 <link rel="preload" href="../assets/fonts/manrope-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../assets/fonts/playfair-display-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../css/tokens.css">
@@ -38,9 +39,9 @@
     <nav class="nav" id="site-nav" aria-label="Основна навігація">
       <ul class="nav__list">
         <li><a class="nav__link" href="../pryyom/">Як проходить прийом</a></li>
-        <li><a class="nav__link" href="../#symptoms" aria-current="page">З чим до мене</a></li>
-        <li><a class="nav__link" href="../#about" aria-current="page">Про мене</a></li>
-        <li><a class="nav__link" href="../#ceny" aria-current="page">Ціни</a></li>
+        <li><a class="nav__link" href="../#symptoms">З чим до мене</a></li>
+        <li><a class="nav__link" href="../#about">Про мене</a></li>
+        <li><a class="nav__link" href="../#ceny">Ціни</a></li>
         <li><a class="nav__link" href="../online/">Онлайн-бесіда</a></li>
       </ul>
       <a class="btn btn--sm nav__cta" href="../#zapys">Записатись</a>
@@ -68,7 +69,7 @@
 
       <h2 id="privacy">Політика конфіденційності</h2>
       <p>Форма на сайті збирає лише ім'я, контакт (телефон або Telegram) і вибір формату консультації, щоб зв'язатись із вами. Дані передаються через сервіс обробки форм Formspree. Не пишіть у формі діагнози й подробиці симптомів. Сайт не використовує cookie й аналітику.</p>
-      <p>Навігатор «Це моє?» та повзунок страху працюють у вашому браузері: нічого не зберігається й не надсилається.</p>
+      <p>Тест «Мені до проктолога?» та повзунок страху працюють у вашому браузері: нічого не зберігається й не надсилається. Готове повідомлення асистенту з'являється лише в чаті Telegram, і лише якщо ви самі натиснете «Надіслати».</p>
       <p><span class="ph">[ПОВНА ПОЛІТИКА КОНФІДЕНЦІЙНОСТІ: текст від юриста]</span></p>
 
       <h2 id="disclaimer">Застереження</h2>
@@ -99,7 +100,7 @@
       <div>
         <a class="logo" href="../" aria-label="На головну"><span class="logo__name">Dr. Prystaia</span><span class="logo__sub">proctology</span></a>
         <p style="margin-top:1rem;max-width:26rem;color:var(--muted-on-dark)">Анастасія Пристая — лікар-хірург, колопроктолог. Очні консультації в Києві, онлайн-бесіди в Telegram.</p>
-        <p style="margin-top:.75rem"><a href="https://instagram.com/dr.anastasiia_prystaia" rel="noopener" target="_blank">Instagram @dr.anastasiia_prystaia</a></p>
+        <p style="margin-top:.75rem"><a class="ig-link" href="https://instagram.com/dr.anastasiia_prystaia" rel="noopener" target="_blank"><svg class="ico-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Instagram"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg><span class="ig-nick">@dr.anastasiia_prystaia</span></a></p>
       </div>
       <div>
         <h2>Сайт</h2>
@@ -127,7 +128,6 @@
     </div>
     <div class="footer-bottom">
       <span>© 2026 Анастасія Пристая. Прототип: <a href="https://alinabeliever.com" rel="noopener" target="_blank">alinabeliever.com</a></span>
-      <button class="motion-toggle" type="button" data-motion-toggle aria-pressed="false">Вимкнути анімації</button>
     </div>
   </div>
 </footer>
