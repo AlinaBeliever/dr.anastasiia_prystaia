@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import * as D from "./data.mjs";
 
+const BUILD_V = Date.now().toString(36);
 const OUT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../site");
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 const ARROW = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
@@ -40,10 +41,10 @@ function head({ root, title, desc, path: p, ld = [], noindexNote = false, ogType
 <link rel="apple-touch-icon" href="${root}assets/icons/apple-touch-icon.png">
 <link rel="preload" href="${root}assets/fonts/manrope-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${root}assets/fonts/playfair-display-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="${root}css/tokens.css">
-<link rel="stylesheet" href="${root}css/base.css">
-<link rel="stylesheet" href="${root}css/sections.css">
-<link rel="stylesheet" href="${root}css/motion.css">
+<link rel="stylesheet" href="${root}css/tokens.css?v=${BUILD_V}">
+<link rel="stylesheet" href="${root}css/base.css?v=${BUILD_V}">
+<link rel="stylesheet" href="${root}css/sections.css?v=${BUILD_V}">
+<link rel="stylesheet" href="${root}css/motion.css?v=${BUILD_V}">
 ${extraHead}${ld.map((o) => `<script type="application/ld+json">${JSON.stringify(o)}</script>`).join("\n")}
 <script>document.documentElement.classList.add("js")</script>
 </head>
@@ -122,7 +123,7 @@ function footer(root) {
 `;
 }
 
-const scripts = (root, list) => list.map((s) => `<script src="${root}js/${s}.js" defer></script>`).join("\n");
+const scripts = (root, list) => list.map((s) => `<script src="${root}js/${s}.js?v=${BUILD_V}" defer></script>`).join("\n");
 const tail = (root, list) => `${scripts(root, list)}
 </body>
 </html>
