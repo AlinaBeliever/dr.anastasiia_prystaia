@@ -1,6 +1,6 @@
 {
   "announcement": {
-    "enabled": false,
+    "enabled": true,
     "text": "Відпустка з ... до .."
   },
   "inperson": {
