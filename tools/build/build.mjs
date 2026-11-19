@@ -467,7 +467,7 @@ ${A.facts.map((x) => `          <div><dt>${txt(x.title)}</dt><dd>${rich(x.text)}
         const id = "w-" + (w.id || i + 1);
         const facts = [["Вартість", w.price], ["Тривалість", w.dur], ["Доступ", w.access]].filter(([, v]) => v);
         const msg = `Добрий день! Хочу придбати: ${(w.kind || "вебінар").toLowerCase()} «${w.title}» (${w.price}). Підкажіть, будь ласка, як оплатити та отримати доступ. Моя пошта gmail: `;
-        const buy = `<a class="btn" href="${w.buy_url ? esc(w.buy_url) : D.tgLink(msg)}" rel="noopener" target="_blank">${w.buy_url ? "" : TG_ICON}${txt(w.buy_label || "Придбати")}</a>`;
+        const buy = `<a class="btn" ${w.buy_url ? `href="${esc(w.buy_url)}"` : D.tgAttrs(msg)} rel="noopener" target="_blank">${w.buy_url ? "" : TG_ICON}${txt(w.buy_label || "Придбати")}</a>`;
         const srcset = w.poster ? posterSrcset(R, w.poster) : "";
         const poster = w.poster
           ? `<picture class="wcard__poster">${srcset ? `
@@ -562,8 +562,8 @@ ${IP.schedule.map((r) => `          <div><dt>${txt(r.day)}</dt><dd>${txt(r.time)
         <span class="path__kicker">Онлайн</span>
         <h3>Бесіда в Telegram</h3>
         <p class="path__price">${txt(ONLINE.price)} · ${txt(ONLINE.duration)}</p>
-        <p>Письмова розмова в Telegram. Запис — через мого асистента в Telegram (@${D.TG_HANDLE}): там пояснять усі деталі, надішлють реквізити ФОП і анкету.</p>
-        <div><a class="btn" href="${D.tgLink(MSG_ONLINE)}" rel="noopener" target="_blank">${TG_ICON}Написати асистенту ${ARROW}</a></div>
+        <p>Письмова розмова в Telegram. Запис — через мого асистента в Telegram: там пояснять усі деталі, надішлють реквізити ФОП і анкету.</p>
+        <div><a class="btn" ${D.tgAttrs(MSG_ONLINE)} rel="noopener" target="_blank">${TG_ICON}Написати асистенту ${ARROW}</a></div>
         <p class="note"><strong>Це освітній формат, а не повноцінна консультація:</strong> точний діагноз без огляду неможливий. <a href="online/">Прочитати правила</a>.</p>
       </article>` : ""}
     </div>
@@ -691,7 +691,7 @@ function online() {
     ${crumbs(R, "Онлайн-бесіда")}
     <h1 data-mask>Онлайн-бесіда з проктологом</h1>
     <p class="lede">Я можу поговорити з вами про вашу проблему та висловити свою думку, спираючись на проктологічний досвід. Такий собі проктологічний лікбез.</p>
-    <a class="btn" href="${D.tgLink(MSG_ONLINE)}" rel="noopener" target="_blank">${TG_ICON}Написати асистенту в Telegram ${ARROW}</a>
+    <a class="btn" ${D.tgAttrs(MSG_ONLINE)} rel="noopener" target="_blank">${TG_ICON}Написати асистенту в Telegram ${ARROW}</a>
   </div>
 </section>
 
@@ -713,7 +713,7 @@ function online() {
   <div class="container">
     <div class="section-head"><h2 id="how-h">Як це відбувається</h2></div>
     <ol class="steps-long">
-      <li data-reveal><div><h3>Напишіть асистенту в Telegram</h3><p>Чат <a href="${D.tgLink(MSG_ONLINE)}" rel="noopener" target="_blank">@${D.TG_HANDLE}</a>: там вам пояснять усі деталі.</p></div></li>
+      <li data-reveal><div><h3>Напишіть асистенту в Telegram</h3><p><a ${D.tgAttrs(MSG_ONLINE)} rel="noopener" target="_blank">Чат з асистентом</a>: там вам пояснять усі деталі.</p></div></li>
       <li data-reveal><div><h3>Оплата й анкета</h3><p>Асистент надасть рахунок ФОП (усі податки сплачуються) і посилання на анкету. Потім — посилання на Telegram.</p></div></li>
       <li data-reveal><div><h3>Спілкуємось у Telegram письмово</h3><p>Зустрічі відбуваються у форматі вільного листування. Тривалість — ${txt(ONLINE.duration)}. Я можу відповідати із затримкою — не ображайтесь, робота :)</p></div></li>
       <li data-reveal><div><h3>Після бесіди</h3><p>Протягом тижня після консультації дозволяються три уточнювальні запитання. При необхідності вас запишуть на очний огляд або операцію.</p></div></li>
@@ -732,7 +732,7 @@ function online() {
           <li><span><strong>Тривалість:</strong> ${txt(ONLINE.duration)}.</span></li>
           <li><span><strong>Вартість:</strong> ${txt(ONLINE.price)}. Оплата — безготівково, на умовах передоплати, після узгодження дати й часу (рахунок ФОП).</span></li>
           <li><span><strong>Скасування (за офертою):</strong> якщо ви скасували не пізніше ніж за 24 години до початку — повертається повна сума. Якщо пізніше — кошти не повертаються, але час можна перенести на інший день.</span></li>
-          <li><span><strong>Запис:</strong> через асистента в Telegram (@${D.TG_HANDLE}).</span></li>
+          <li><span><strong>Запис:</strong> через асистента в Telegram.</span></li>
         </ul>
       </div>
       <div class="prose">

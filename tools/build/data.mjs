@@ -19,7 +19,9 @@ BOOKING.inperson.schedule = (BOOKING.inperson.schedule || []).filter(on);
 export const TG_HANDLE = BOOKING.online.telegram.replace(/^@/, "").trim();
 export const TG = "https://t.me/" + TG_HANDLE;
 // Посилання в чат асистента з готовим текстом (його лишається лише надіслати)
-export const tgLink = (text) => TG + "?text=" + encodeURIComponent(text);
+// Адреса чату НЕ потрапляє в HTML (щоб боти-збирачі її не знаходили): лише base64 у data-атрибуті,
+// а справжнє посилання збирає js/core.js у момент торкання/кліку.
+export const tgAttrs = (text) => `href="#" data-tg="${Buffer.from(TG_HANDLE).toString("base64")}" data-m="${String(text).replace(/&/g, "&amp;").replace(/"/g, "&quot;")}"`;
 export const IG_SVIY = "https://www.instagram.com/sviy.doc/";
 // «+380 44 503 5003» -> { tel: "+380445035003", label: "+380 44 503 5003" }
 export const PHONES = (BOOKING.inperson.phones || []).map((p) => ({ tel: p.number.replace(/[^\d+]/g, ""), label: p.number.trim() })).filter((p) => p.tel);

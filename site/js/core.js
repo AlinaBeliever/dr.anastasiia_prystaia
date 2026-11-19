@@ -82,3 +82,13 @@
     }
   }
 })();
+
+// Посилання на Telegram збирається лише при торканні/кліку (адреси немає в HTML — захист від спам-ботів)
+(() => {
+  const arm = (a) => {
+    if (a.dataset.armed) return;
+    try { a.href = "https://t.me/" + atob(a.dataset.tg) + "?text=" + encodeURIComponent(a.dataset.m || ""); a.dataset.armed = "1"; } catch (e) {}
+  };
+  ["pointerdown", "touchstart", "focusin", "mouseover", "click"].forEach((ev) =>
+    document.addEventListener(ev, (e) => { const a = e.target.closest && e.target.closest("a[data-tg]"); if (a) arm(a); }, { passive: true, capture: true }));
+})();
