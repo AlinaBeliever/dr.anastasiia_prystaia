@@ -1,5 +1,5 @@
-/* form.js — форма запису (Formspree). Мінімум полів, згода, чесний статус.
-   Поки в action стоїть заглушка YOUR_FORM_ID, форма НЕ вдає успішну відправку. */
+/* form.js — форма «лист очікування»: без серверів і сторонніх сервісів.
+   З полів складається повідомлення, яке відкривається в Telegram асистенту: користувач сам натискає «Надіслати». */
 (() => {
   "use strict";
   const form = document.querySelector("[data-form]");
@@ -7,8 +7,8 @@
   const status = form.querySelector("[data-form-status]");
   const fields = {
     name: { el: form.elements.name, err: "#f-name-err", msg: "Вкажіть, як до вас звертатись." },
-    contact: { el: form.elements.contact, err: "#f-contact-err", msg: "Залиште телефон або Telegram, щоб ми могли відповісти." },
-    consent: { el: form.elements.consent, err: "#f-consent-err", msg: "Потрібна згода на обробку даних, інакше ми не зможемо зв'язатись." },
+    contact: { el: form.elements.contact, err: "#f-contact-err", msg: "Залиште телефон або Telegram, щоб вам могли відповісти." },
+    consent: { el: form.elements.consent, err: "#f-consent-err", msg: "Потрібна згода передати дані асистенту." },
   };
   const show = (state, text) => { status.hidden = false; status.dataset.state = state; status.textContent = text; };
   const setErr = (f, on) => {
@@ -16,10 +16,9 @@
     f.el.setAttribute("aria-invalid", on ? "true" : "false");
     e.textContent = on ? f.msg : "";
   };
-
   Object.values(fields).forEach((f) => f.el.addEventListener("input", () => setErr(f, false)));
 
-  form.addEventListener("submit", async (ev) => {
+  form.addEventListener("submit", (ev) => {
     ev.preventDefault();
     let first = null;
     Object.values(fields).forEach((f) => {
@@ -28,22 +27,9 @@
       if (bad && !first) first = f.el;
     });
     if (first) { first.focus(); show("err", "Перевірте, будь ласка, підсвічені поля."); return; }
-    if (form.elements._gotcha && form.elements._gotcha.value) return; // бот
-
-    if (/YOUR_FORM_ID/.test(form.action)) {
-      show("info", "Це демонстраційна версія: форму ще не підключено до Formspree, тому заявку не надіслано. Для запису скористайтесь телефонами OLYMED або Instagram.");
-      return;
-    }
-    const btn = form.querySelector("button[type=submit]");
-    btn.disabled = true;
-    show("info", "Надсилаю…");
-    try {
-      const res = await fetch(form.action, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } });
-      if (!res.ok) throw new Error(res.status);
-      form.reset();
-      show("ok", "Дякую! Контакт отримано. Вам відповідуть, щойно буде вільне місце або ми уточнимо деталі.");
-    } catch (e) {
-      show("err", "Не вдалось надіслати. Спробуйте ще раз або зателефонуйте в OLYMED.");
-    } finally { btn.disabled = false; }
+    const handle = atob(form.dataset.tg);
+    const msg = `Добрий день! Мене звати ${form.elements.name.value.trim()}. Мене цікавить: ${form.elements.kind.value.toLowerCase()}. Мій контакт: ${form.elements.contact.value.trim()}. Підкажіть, будь ласка, вільні дати.`;
+    window.open("https://t.me/" + handle + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
+    show("ok", "Відкрився Telegram із готовим повідомленням: натисніть там «Надіслати». Якщо нічого не відкрилось — напишіть асистенту напряму.");
   });
 })();

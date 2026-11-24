@@ -3,24 +3,39 @@
     {
       "enabled": true,
       "value": "300+",
-      "text": "втручань на рік: промежинних і черевної порожнини (за моїми даними 2023 року)."
+      "text": "операцій щорічно."
     }
   ],
   "facts": [
     {
       "enabled": true,
       "title": "Де",
-      "text": "Клінічна лікарня «Феофанія» ДУС (Київ): тут оперую.\nКонсультую також у The Beauty clinic; очний запис — в OLYMED."
+      "text": "Клінічна лікарня «Феофанія» ДУС (Київ): тут оперую.\nОчний запис — в OLYMED."
     },
     {
       "enabled": true,
       "title": "Ще",
-      "text": "Директорка з питань міжнародного партнерства та зв'язків із громадськістю в GMKA; \nчастина команди [@sviy.doc](https://www.instagram.com/sviy.doc/)."
+      "text": "Директорка з питань міжнародного партнерства та зв'язків із громадськістю в GMKA; ведуча подкасту GMKA Podcast."
     },
     {
       "enabled": true,
       "title": "Освіта",
-      "text": "[ОСВІТА І ПІДВИЩЕННЯ КВАЛІФІКАЦІЇ: уточнити]"
+      "text": "9/2007 – 6/2013 — MD, Medicine, Bogomolets National Medical University, Kyiv, Ukraine.\n7/2013 – 8/2016 — Intern, General surgery, P.L. Shupyk National Medical Academy of Postgraduate Education.\nSubspecialization: Proctology (7/2013 – 8/2016), Oncological surgery (9/2018 – 12/2018), P.L. Shupyk National Medical Academy of Postgraduate Education."
+    },
+    {
+      "enabled": true,
+      "title": "Сертифікати",
+      "text": "2016 — Certification in Field of Surgery.\n2018 — Certification in Field of Oncological Surgery.\n2019 — Certification in Field of Proctology."
+    },
+    {
+      "enabled": true,
+      "title": "Членство",
+      "text": "European Society of Coloproctology (ESCP), European Crohn Colitis Organisation (ECCO), European Society of Surgical Oncology (ESSO), European Society of Medical Oncology (ESMO)."
+    },
+    {
+      "enabled": true,
+      "title": "Нагороди",
+      "text": "06/2021 — Award of the Kyiv City Association of Healthcare Workers.\n06/2022 — Medal \"Unbroken Spirit\" for Contribution to Humanitarian Aid During Siege of Chernihiv."
     }
   ]
 }

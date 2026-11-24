@@ -114,6 +114,27 @@ collections:
               - { name: title, label: "Заголовок", widget: string, hint: "Одне-два слова: «Освіта», «Нагороди», «Членство»" }
               - { name: text, label: "Текст", widget: text, hint: "Новий рядок = перенос. Посилання: [текст](https://адреса). **Жирний**." }
 
+  - name: interviews
+    label: "🎙 Інтерв'ю (окрема сторінка)"
+    description: "Сторінка «Інтерв'ю». YouTube-посилання вбудовується як плеєр."
+    editor: { preview: false }
+    files:
+      - name: interviews
+        label: "Інтерв'ю"
+        file: content/interviews.json
+        fields:
+          - name: items
+            label: "Інтерв'ю"
+            label_singular: "інтерв'ю"
+            widget: list
+            summary: "{{fields.title}}"
+            collapsed: true
+            fields:
+              - { name: enabled, label: "Показувати на сайті", widget: boolean, default: true }
+              - { name: title, label: "Назва", widget: string }
+              - { name: source, label: "Канал / видання", widget: string, required: false }
+              - { name: url, label: "Посилання на YouTube", widget: string }
+
   # ---------------------------------------------------------------- МЕДІА
   - name: media
     label: "📰 Публікації та медіа"
@@ -190,6 +211,7 @@ collections:
             fields:
               - { name: enabled, label: "Показувати онлайн-запис", widget: boolean, default: true }
               - { name: price, label: "Ціна", widget: string, hint: "Також змініть її в «Послуги та ціни», якщо там є такий рядок." }
+              - { name: price_urgent, label: "Ціна екстрено", widget: string, hint: "Напр.: «2000 грн»" }
               - { name: duration, label: "Тривалість", widget: string, hint: "Напр.: «до 30 хвилин»" }
               - { name: telegram, label: "Telegram асистента (без @)", widget: string }
           - name: waitlist
@@ -197,4 +219,3 @@ collections:
             widget: object
             fields:
               - { name: enabled, label: "Показувати форму", widget: boolean, default: true }
-              - { name: form_action, label: "Адреса форми Formspree", widget: string, hint: "Вигляду https://formspree.io/f/abcdwxyz" }

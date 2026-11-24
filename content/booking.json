@@ -19,11 +19,11 @@
   "online": {
     "enabled": true,
     "price": "1500 грн",
+    "price_urgent": "2000 грн",
     "duration": "до 30 хвилин",
     "telegram": "prystaia_online"
   },
   "waitlist": {
-    "enabled": true,
-    "form_action": "https://formspree.io/f/YOUR_FORM_ID"
+    "enabled": true
   }
 }
