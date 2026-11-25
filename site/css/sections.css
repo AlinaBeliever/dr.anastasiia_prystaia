@@ -634,15 +634,18 @@ input[type="range"]:focus-visible { outline: 3px solid var(--lime-500); outline-
 .podcast-cover { display: block; width: min(100%, 20rem); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
 .podcast-cover img { display: block; width: 100%; height: auto; }
 
+.hero__lede span { display: block; }
+
 /* ---------- Геро на ноутбуці: той самий текст, менше рядків і висоти ---------- */
 @media (min-width: 1100px) {
   .hero__grid { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); padding-block: 2rem 2.5rem; }
-  .hero__copy { gap: var(--sp-3); max-width: none; padding-bottom: 0; }
+  .hero__copy { gap: var(--sp-5); max-width: none; padding-bottom: 0; }
   .hero h1 { font-size: clamp(2rem, 0.8rem + 1.75vw, 2.45rem); line-height: 1.15; }
   .hero__lede, .hero__more { font-size: var(--fs-base); }
+  .hero__lede span { white-space: nowrap; }
   .hero__more, .hero__quote { margin-top: 0; }
   .hero__quote { font-size: 1.35rem; }
   .hero__meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-5); }
   .hero__meta p { margin: 0; }
-  .hero__cta { margin-top: var(--sp-2); }
+  .hero__cta { margin-top: 0; }
 }

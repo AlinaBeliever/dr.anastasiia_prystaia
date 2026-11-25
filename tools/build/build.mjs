@@ -252,7 +252,7 @@ ${A.facts.map((x) => `          <div><dt>${txt(x.title)}</dt><dd>${rich(x.text)}
   <div class="container hero__grid">
     <div class="hero__copy">
       <h1 id="hero-title" data-mask>Вітаю! Я Анастасія Пристая, амбасадорка нестрашної проктології</h1>
-      <p class="hero__lede" data-reveal style="--d:.3s">Консультую без сорому, без болю, комфортно та приватно.<br>Чоловіків та жінок 18 – 100+ років.</p>
+      <p class="hero__lede" data-reveal style="--d:.3s"><span>Консультую без сорому, без болю, комфортно та приватно.</span> <span>Чоловіків та жінок 18 – 100+ років.</span></p>
       <p class="hero__more" data-reveal style="--d:.38s"><span>Оперую весь обсяг проктологічних втручань останні 15 років,</span> <span>виконую 300+ операцій на рік, але <strong>ЗАВЖДИ ПО ПОКАЗАХ</strong>.</span></p>
       <p class="hero__quote" data-reveal style="--d:.42s">Краща операція це та, яку вдалось не зробити.</p>
       <div class="hero__meta">
