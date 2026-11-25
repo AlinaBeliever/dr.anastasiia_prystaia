@@ -2,6 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import * as D from "./data.mjs";
+import { OFFER, PRIVACY } from "./legal.mjs";
 
 const BUILD_V = Date.now().toString(36);
 const OUT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../site");
@@ -54,8 +55,8 @@ function head({ root, title, desc, path: p, ld = [], noindexNote = false, ogType
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Анастасія Пристая, лікар-колопроктолог, у лаймовій шапочці">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="${root}assets/icons/favicon-name-96.png" type="image/png" sizes="96x96">
-<link rel="apple-touch-icon" href="${root}assets/icons/touch-icon-name-180.png">
+<link rel="icon" href="${root}assets/icons/favicon-dr-96.png" type="image/png" sizes="96x96">
+<link rel="apple-touch-icon" href="${root}assets/icons/touch-icon-dr-180.png">
 <link rel="preload" href="${root}assets/fonts/manrope-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${root}assets/fonts/playfair-display-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="${root}css/tokens.css?v=${BUILD_V}">
@@ -252,7 +253,7 @@ ${A.facts.map((x) => `          <div><dt>${txt(x.title)}</dt><dd>${rich(x.text)}
   <div class="container hero__grid">
     <div class="hero__copy">
       <h1 id="hero-title" data-mask>Вітаю! Я Анастасія Пристая, амбасадорка нестрашної проктології</h1>
-      <p class="hero__lede" data-reveal style="--d:.3s"><span>Консультую без сорому, без болю, комфортно та приватно.</span> <span>Чоловіків та жінок 18 – 100+ років.</span></p>
+      <p class="hero__lede" data-reveal style="--d:.3s"><span>Консультую без&nbsp;сорому, без&nbsp;болю, комфортно та&nbsp;приватно.</span> <span>Чоловіків та жінок 18 – 100+ років.</span></p>
       <p class="hero__more" data-reveal style="--d:.38s"><span>Оперую весь обсяг проктологічних втручань останні 15 років,</span> <span>виконую 300+ операцій на рік, але <strong>ЗАВЖДИ ПО ПОКАЗАХ</strong>.</span></p>
       <p class="hero__quote" data-reveal style="--d:.42s">Краща операція це та, яку вдалось не зробити.</p>
       <div class="hero__meta">
@@ -834,7 +835,7 @@ function interviu() {
     <div class="prose">
       <h2 id="pod-h" style="margin-top:0">Подкаст, який я веду</h2>
       <a class="podcast-cover" href="${esc(D.PODCAST_URL)}" rel="noopener" target="_blank"><img src="${R}assets/img/gmka-podcast.webp" width="402" height="300" loading="lazy" decoding="async" alt="GMKA Подкасти"></a>
-      <p><strong>GMKA Podcast</strong> — подкаст міжнародної неприбуткової організації Global Medical Knowledge Alliance: пояснюємо про здоров'я просто, про профілактику, діагностику й лікування. Ведуча — я.</p>
+      <p><strong>GMKA Podcast</strong> — подкаст міжнародної неприбуткової організації Global Medical Knowledge Alliance: пояснюємо про здоров'я просто, про профілактику, діагностику й лікування.</p>
       <p>${D.PODCAST_URL ? `<a class="btn" href="${esc(D.PODCAST_URL)}" rel="noopener" target="_blank">Слухати й дивитись подкаст ${ARROW}</a>` : `<span class="ph">[ПОСИЛАННЯ НА ПЛЕЙЛИСТ GMKA PODCAST]</span>`}</p>
     </div>
   </div>
@@ -870,21 +871,18 @@ function dokumenty() {
   <div class="container">
     ${crumbs(R, "Документи")}
     <h1 data-mask>Документи й застереження</h1>
-    <p class="lede">Оферта, конфіденційність, застереження та реквізити. Сторінка в прототипі — із плейсхолдерами: фінальні тексти потрібні від Анастасії та юриста.</p>
+    <p class="lede">Договір публічної оферти, політика конфіденційності, застереження та реквізити.</p>
   </div>
 </section>
 <section class="section">
   <div class="container container--narrow">
     <div class="prose">
       <h2 id="oferta" style="margin-top:0">Договір публічної оферти</h2>
-      <p>За інформацією з Instagram лікарки, чинна редакція оновлена 30 липня 2025 року. Текст не змінюється без відома лікарки.</p>
-      <p>Оферта стосується інформаційно-консультаційних та освітніх послуг, вебінарів, відеокурсів, чек-листів і гайдів. Умови скасування онлайн-бесіди: див. <a href="${R}online/">сторінку онлайн-бесіди</a>.</p>
-      <p><span class="ph">[ВСТАВИТИ ПОВНИЙ ТЕКСТ ОФЕРТИ або посилання на PDF — отримати в Анастасії]</span></p>
+      <p class="small">Редакція, опублікована в Instagram 30 липня 2025 року.</p>
+      ${OFFER}
 
       <h2 id="privacy">Політика конфіденційності</h2>
-      <p>Форма на сайті використовує лише ім'я, контакт (телефон або Telegram) і вибір формату консультації, щоб скласти повідомлення асистенту. Дані з форми нікуди не надсилаються самим сайтом: з них формується повідомлення, яке ви самі відправляєте асистенту в Telegram. Не пишіть у формі діагнози й подробиці симптомів. Сайт не використовує cookie й аналітику.</p>
-      <p>Повзунок страху працює у вашому браузері: нічого не зберігається й не надсилається.</p>
-      <p><span class="ph">[ПОВНА ПОЛІТИКА КОНФІДЕНЦІЙНОСТІ: текст від юриста]</span></p>
+      ${PRIVACY(R)}
 
       <h2 id="disclaimer">Застереження</h2>
       <ul class="bullets">
@@ -899,10 +897,7 @@ function dokumenty() {
       <h2 id="requisites">Реквізити ФОП</h2>
       <ul class="bullets">
         <li>ФОП Пристая Анастасія Володимирівна (виконавець за офертою; платник єдиного податку)</li>
-        <li>Питання щодо оферти: <a href="mailto:proctology.team@gmail.com">proctology.team@gmail.com</a>, 5 днів на тиждень з 9:00 до 17:00 (як в оферті)</li>
-        <li><span class="ph">[РНОКПП]</span></li>
-        <li><span class="ph">[ЮРИДИЧНА АДРЕСА]</span></li>
-        <li><span class="ph">[ЛІЦЕНЗІЯ НА МЕДИЧНУ ПРАКТИКУ №: уточнити, чи потрібна для онлайн]</span></li>
+        <li>Питання щодо оферти: <a href="mailto:proctology.team@gmail.com">proctology.team@gmail.com</a>, 5 днів на тиждень з 9:00 до 17:00</li>
       </ul>
     </div>
   </div>

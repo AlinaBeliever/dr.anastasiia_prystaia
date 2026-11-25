@@ -649,3 +649,22 @@ input[type="range"]:focus-visible { outline: 3px solid var(--lime-500); outline-
   .hero__meta p { margin: 0; }
   .hero__cta { margin-top: 0; }
 }
+
+/* ---------- Телефон: кнопки вебінарів в один ряд, компактне геро ---------- */
+@media (max-width: 639.98px) {
+  .wcard__actions { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-2); }
+  .wcard__actions .btn { justify-self: stretch; justify-content: center; padding-inline: .5rem; gap: .4rem; font-size: var(--fs-sm); }
+
+  .hero__grid { padding-block: 1.25rem 2rem; gap: var(--sp-5); }
+  .hero__copy { gap: 0; }
+  .hero h1 { font-size: clamp(1.5rem, 0.5rem + 4.6vw, 2rem); line-height: 1.16; text-wrap: balance; }
+  .hero__lede, .hero__more { font-size: .9375rem; line-height: 1.5; }
+  .hero__lede { margin-top: var(--sp-4); }
+  .hero__lede span { text-wrap: balance; }
+  .hero__more { margin-top: var(--sp-3); }
+  .hero__quote { margin-top: var(--sp-4); padding-left: var(--sp-3); border-left: 3px solid var(--lime-500); font-size: 1.125rem; line-height: 1.35; text-wrap: balance; }
+  .hero__meta { display: grid; gap: var(--sp-2); margin-top: var(--sp-4); font-size: .9375rem; }
+  .hero__meta p { margin: 0; }
+  .hero__cta { display: grid; grid-template-columns: minmax(0, 1fr); justify-self: stretch; gap: var(--sp-2); margin-top: var(--sp-4); }
+  .hero__cta .btn { justify-content: center; min-height: 3rem; }
+}
