@@ -557,7 +557,7 @@ input[type="range"]:focus-visible { outline: 3px solid var(--lime-500); outline-
 /* =============== ДОДАТКИ: геро-лід, Instagram, чернетка для асистента =============== */
 .hero__lede { font-size: var(--fs-lg); line-height: 1.5; color: var(--ink-soft); max-width: 46rem; }
 .ig-link { display: inline-flex; align-items: center; gap: 0.55rem; }
-.ig-link .ico-ig { width: 1.35em; height: 1.35em; flex: none; }
+.ig-link svg { width: 1.35em; height: 1.35em; flex: none; }
 .ig-nick { color: var(--lime-500); font-weight: 700; }
 .learn-card__top { display: flex; align-items: center; gap: var(--sp-3); }
 .learn-card__avatar { width: 4rem; height: 4rem; border-radius: 50%; object-fit: cover; border: 2px solid var(--lime-500); }
@@ -629,3 +629,20 @@ input[type="range"]:focus-visible { outline: 3px solid var(--lime-500); outline-
 .zbir__btn { --btn-bg: var(--sand-300); --btn-bg-hover: var(--cream-50); --btn-text: var(--ink-900); --btn-dot: var(--terra-600); justify-self: start; }
 @media (min-width: 800px) { .zbir__card { grid-template-columns: auto 1fr auto; gap: var(--sp-6); } }
 .hero__ig .ig-nick { color: var(--ink-800); }
+
+.path .note--lg { font-size: var(--fs-base); line-height: 1.6; }
+.podcast-cover { display: block; width: min(100%, 20rem); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
+.podcast-cover img { display: block; width: 100%; height: auto; }
+
+/* ---------- Геро на ноутбуці: той самий текст, менше рядків і висоти ---------- */
+@media (min-width: 1100px) {
+  .hero__grid { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); padding-block: 2rem 2.5rem; }
+  .hero__copy { gap: var(--sp-3); max-width: none; padding-bottom: 0; }
+  .hero h1 { font-size: clamp(2rem, 0.8rem + 1.75vw, 2.45rem); line-height: 1.15; }
+  .hero__lede, .hero__more { font-size: var(--fs-base); }
+  .hero__more, .hero__quote { margin-top: 0; }
+  .hero__quote { font-size: 1.35rem; }
+  .hero__meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-5); }
+  .hero__meta p { margin: 0; }
+  .hero__cta { margin-top: var(--sp-2); }
+}

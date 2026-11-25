@@ -54,8 +54,8 @@ function head({ root, title, desc, path: p, ld = [], noindexNote = false, ogType
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Анастасія Пристая, лікар-колопроктолог, у лаймовій шапочці">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="${root}assets/icons/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="${root}assets/icons/apple-touch-icon.png">
+<link rel="icon" href="${root}assets/icons/favicon-sign-96.png" type="image/png" sizes="96x96">
+<link rel="apple-touch-icon" href="${root}assets/icons/touch-icon-sign-180.png">
 <link rel="preload" href="${root}assets/fonts/manrope-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${root}assets/fonts/playfair-display-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="${root}css/tokens.css?v=${BUILD_V}">
@@ -113,15 +113,10 @@ function footer(root) {
         <h2>Сайт</h2>
         <ul class="footer-list">
           <li><a href="${root}pryyom/">Як проходить прийом</a></li>
-          <li><a href="${root}#symptoms">З чим до мене прийти</a></li>
           <li><a href="${root}#about">Про мене</a></li>
-          <li><a href="${root}#prepare">Як підготуватись</a></li>
-          <li><a href="${root}#operations">Операції та процедури</a></li>
           <li><a href="${root}#ceny">Послуги й вартість</a></li>
-          <li><a href="${D.JAR_URL}" rel="noopener" target="_blank">Збір</a></li>
           <li><a href="${root}online/">Онлайн-бесіда</a></li>
           <li><a href="${root}#learn">Вебінари</a></li>
-          <li><a href="${root}interviu/">Інтерв'ю</a></li>
           <li><a href="${root}#zapys">Запис</a></li>
         </ul>
       </div>
@@ -259,9 +254,11 @@ ${A.facts.map((x) => `          <div><dt>${txt(x.title)}</dt><dd>${rich(x.text)}
       <h1 id="hero-title" data-mask>Вітаю! Я Анастасія Пристая, амбасадорка нестрашної проктології</h1>
       <p class="hero__lede" data-reveal style="--d:.3s">Консультую без сорому, без болю, комфортно та приватно.<br>Чоловіків та жінок 18 – 100+ років.</p>
       <p class="hero__more" data-reveal style="--d:.38s"><span>Оперую весь обсяг проктологічних втручань останні 15 років,</span> <span>виконую 300+ операцій на рік, але <strong>ЗАВЖДИ ПО ПОКАЗАХ</strong>.</span></p>
-      <p class="hero__quote" data-reveal style="--d:.42s">Краща операція — та, яку вдалось не зробити.</p>
-      <p class="hero__where" data-reveal style="--d:.46s">Приймаю в Києві, очно та онлайн.</p>
-      <p class="hero__ig" data-reveal style="--d:.5s"><a class="ig-link" href="${D.IG}" rel="noopener" target="_blank">${IG_ICON}<span class="ig-nick">@dr.anastasiia_prystaia</span></a></p>
+      <p class="hero__quote" data-reveal style="--d:.42s">Краща операція це та, яку вдалось не зробити.</p>
+      <div class="hero__meta">
+        <p class="hero__where" data-reveal style="--d:.46s">Приймаю в Києві, очно та онлайн.</p>
+        <p class="hero__ig" data-reveal style="--d:.5s"><a class="ig-link" href="${D.IG}" rel="noopener" target="_blank">${IG_ICON}<span class="ig-nick">@dr.anastasiia_prystaia</span></a></p>
+      </div>
       <div class="hero__cta" data-reveal style="--d:.45s">
         <a class="btn" href="#zapys">Записатись на консультацію</a>
         <a class="btn btn--ghost" href="#learn">Придбати вебінари</a>
@@ -481,7 +478,6 @@ ${D.OPS.map(([t, l], i) => `      <details class="ops"><summary>${t}</summary><u
     <div class="section-head">
       <p class="kicker"><b>08</b>Поглибити</p>
       <h2 id="learn-title" data-mask>Вебінари: якщо хочеться розібратись <em>глибше</em></h2>
-      <p><a class="link-arrow" href="interviu/">Усі інтерв'ю ${ARROW}</a></p>
     </div>
 
     <div class="webinar-grid" aria-label="Вебінари">
@@ -587,7 +583,7 @@ ${IP.schedule.map((r) => `          <div><dt>${txt(r.day)}</dt><dd>${txt(r.time)
         <p class="path__price">Планово — ${txt(ONLINE.price)} · ${txt(ONLINE.duration)}<br>Екстрено — ${txt(ONLINE.price_urgent)}</p>
         <p>Письмова розмова в Telegram. Запис — через мого асистента в Telegram: там пояснять усі деталі, надішлють реквізити ФОП і анкету.</p>
         <div><a class="btn" ${D.tgAttrs(MSG_ONLINE)} rel="noopener" target="_blank">${TG_ICON}Написати асистенту ${ARROW}</a></div>
-        <p class="note"><strong>Це освітній формат, а не повноцінна консультація:</strong> точний діагноз без огляду неможливий. Уточнювальні питання — протягом 7 днів, потім я видаляю бесіду для себе. <a href="online/">Прочитати правила</a>.</p>
+        <p class="note note--lg"><strong>Це освітній формат, а не повноцінна консультація:</strong> точний діагноз без огляду неможливий.<br>Уточнювальні питання — протягом 7 днів, потім я видаляю бесіду для себе. <a href="online/">Прочитати правила</a>.</p>
         <p class="note"><strong>Перед записом обов'язково прочитайте <a href="dokumenty/#oferta">договір публічної оферти</a>.</strong></p>
       </article>` : ""}
     </div>
@@ -619,7 +615,7 @@ ${B.waitlist.enabled !== false ? `
       <svg class="zbir__heart" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 41C24 41 6 30 6 18C6 12 10.500 8.500 15.500 8.500C19.500 8.500 22.500 10.500 24 13.500C25.500 10.500 28.500 8.500 32.500 8.500C37.500 8.500 42 12 42 18C42 30 24 41 24 41Z"/></svg>
       <div class="zbir__copy">
         <p class="kicker">Допомога</p>
-        <h2 id="zbir-title">Збір</h2>
+        <h2 id="zbir-title">Збір для військових</h2>
         <p>Долучитись до збору можна за посиланням на банку Monobank.</p>
       </div>
       <a class="btn zbir__btn" href="${D.JAR_URL}" rel="noopener" target="_blank">Долучитись до збору ${ARROW}</a>
@@ -837,8 +833,9 @@ function interviu() {
   <div class="container container--narrow">
     <div class="prose">
       <h2 id="pod-h" style="margin-top:0">Подкаст, який я веду</h2>
+      <a class="podcast-cover" href="${esc(D.PODCAST_URL)}" rel="noopener" target="_blank"><img src="${R}assets/img/gmka-podcast.webp" width="402" height="300" loading="lazy" decoding="async" alt="GMKA Подкасти"></a>
       <p><strong>GMKA Podcast</strong> — подкаст міжнародної неприбуткової організації Global Medical Knowledge Alliance: пояснюємо про здоров'я просто, про профілактику, діагностику й лікування. Ведуча — я.</p>
-      <p>${D.PODCAST_URL ? `<a class="btn" href="${D.PODCAST_URL}" rel="noopener" target="_blank">Слухати й дивитись подкаст ${ARROW}</a>` : `<span class="ph">[ПОСИЛАННЯ НА ПЛЕЙЛИСТ GMKA PODCAST]</span>`}</p>
+      <p>${D.PODCAST_URL ? `<a class="btn" href="${esc(D.PODCAST_URL)}" rel="noopener" target="_blank">Слухати й дивитись подкаст ${ARROW}</a>` : `<span class="ph">[ПОСИЛАННЯ НА ПЛЕЙЛИСТ GMKA PODCAST]</span>`}</p>
     </div>
   </div>
 </section>
