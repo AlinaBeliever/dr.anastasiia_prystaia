@@ -54,8 +54,8 @@ function head({ root, title, desc, path: p, ld = [], noindexNote = false, ogType
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Анастасія Пристая, лікар-колопроктолог, у лаймовій шапочці">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="${root}assets/icons/favicon-sign-96.png" type="image/png" sizes="96x96">
-<link rel="apple-touch-icon" href="${root}assets/icons/touch-icon-sign-180.png">
+<link rel="icon" href="${root}assets/icons/favicon-name-96.png" type="image/png" sizes="96x96">
+<link rel="apple-touch-icon" href="${root}assets/icons/touch-icon-name-180.png">
 <link rel="preload" href="${root}assets/fonts/manrope-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${root}assets/fonts/playfair-display-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="${root}css/tokens.css?v=${BUILD_V}">
