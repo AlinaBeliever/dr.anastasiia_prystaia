@@ -55,8 +55,8 @@ function head({ root, title, desc, path: p, ld = [], noindexNote = false, ogType
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Анастасія Пристая, лікар-колопроктолог, у лаймовій шапочці">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="${root}assets/icons/favicon-dr-96.png" type="image/png" sizes="96x96">
-<link rel="apple-touch-icon" href="${root}assets/icons/touch-icon-dr-180.png">
+<link rel="icon" href="${root}assets/icons/favicon-olive-96.png" type="image/png" sizes="96x96">
+<link rel="apple-touch-icon" href="${root}assets/icons/touch-icon-olive-180.png">
 <link rel="preload" href="${root}assets/fonts/manrope-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${root}assets/fonts/playfair-display-normal-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="${root}css/tokens.css?v=${BUILD_V}">
@@ -127,7 +127,6 @@ function footer(root) {
           <li><a href="${root}dokumenty/#oferta">Договір публічної оферти</a></li>
           <li><a href="${root}dokumenty/#privacy">Політика конфіденційності</a></li>
           <li><a href="${root}dokumenty/#disclaimer">Застереження</a></li>
-          <li><a href="${root}dokumenty/#requisites">Реквізити ФОП</a></li>
         </ul>
       </div>
     </div>
@@ -871,14 +870,14 @@ function dokumenty() {
   <div class="container">
     ${crumbs(R, "Документи")}
     <h1 data-mask>Документи й застереження</h1>
-    <p class="lede">Договір публічної оферти, політика конфіденційності, застереження та реквізити.</p>
+    <p class="lede">Договір публічної оферти, політика конфіденційності та застереження.</p>
   </div>
 </section>
 <section class="section">
   <div class="container container--narrow">
     <div class="prose">
       <h2 id="oferta" style="margin-top:0">Договір публічної оферти</h2>
-      <p class="small">Редакція, опублікована в Instagram 30 липня 2025 року.</p>
+      <p class="small">Редакція від 25 листопада 2026 року.</p>
       ${OFFER}
 
       <h2 id="privacy">Політика конфіденційності</h2>
@@ -893,12 +892,6 @@ function dokumenty() {
         <li>Ціни орієнтовні; остаточну вартість підтверджує адміністратор клініки.</li>
         <li>У невідкладній ситуації телефонуйте 103 або 112.</li>
       </ul>
-
-      <h2 id="requisites">Реквізити ФОП</h2>
-      <ul class="bullets">
-        <li>ФОП Пристая Анастасія Володимирівна (виконавець за офертою; платник єдиного податку)</li>
-        <li>Питання щодо оферти: <a href="mailto:proctology.team@gmail.com">proctology.team@gmail.com</a>, 5 днів на тиждень з 9:00 до 17:00</li>
-      </ul>
     </div>
   </div>
 </section>
@@ -909,7 +902,7 @@ ${bookbar(R)}${tail(R, ["core"])}`;
     head({
       root: R,
       title: "Документи та застереження — Анастасія Пристая",
-      desc: "Договір публічної оферти, політика конфіденційності, застереження та реквізити ФОП.",
+      desc: "Договір публічної оферти, політика конфіденційності та застереження.",
       path: "/dokumenty/",
       ld: [bc([["Головна", "/"], ["Документи", "/dokumenty/"]])],
     }) + body
